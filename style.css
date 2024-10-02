@@ -132,9 +132,6 @@ select:focus {
 }
 
 /* Content styles*/
-#content {
-}
-
 header {
   padding: 30px 40px;
   display: flex;
@@ -226,4 +223,26 @@ form .botton-buttons {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+}
+
+/* Project details page */
+.dashboard-card {
+  background-color: var(--background-100);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#project-details > .main-page-content {
+  display: grid;
+  padding: 20px 40px;
+  gap: 30px;
+  grid-template-columns: 475px 1fr;
+  height: 100%;
 }
