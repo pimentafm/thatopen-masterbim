@@ -24,6 +24,66 @@
       </ul>
     </aside>
     <main id="content">
+      <dialog id="new-project-modal">
+        <form>
+          <h2>New Project</h2>
+          <div class="input-list">
+            <div class="form-field-container">
+              <label
+                ><span class="material-symbols-rounded"> apartment </span
+                >Name</label
+              >
+              <input type="text" />
+            </div>
+            <div class="form-field-container">
+              <label
+                ><span class="material-symbols-rounded"> subject </span
+                >Description</label
+              >
+              <textarea
+                cols="30"
+                rows="5"
+                placeholder="Give your description here"
+              ></textarea>
+            </div>
+            <div class="form-field-container">
+              <label
+                ><span class="material-symbols-rounded"> account_circle </span
+                >Role</label
+              >
+              <select>
+                <option>Architect</option>
+                <option>Engineer</option>
+                <option>Developer</option>
+              </select>
+            </div>
+            <div class="form-field-container">
+              <label
+                ><span class="material-symbols-rounded">
+                  question_exchange </span
+                >Status</label
+              >
+              <select>
+                <option>Pending</option>
+                <option>Active</option>
+                <option>Finished</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <div
+              style="
+                display: flex;
+                margin: 10px 0px 10px auto;
+                column-gap: 10px;
+              "
+            >
+              <button style="background-color: transparent">Cancel</button>
+              <button style="background-color: rgb(18, 145, 18)">Accept</button>
+            </div>
+          </div>
+        </form>
+      </dialog>
       <header>
         <h2>Projects</h2>
         <div>
