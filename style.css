@@ -15,6 +15,21 @@ body {
   color: #ffffff;
 }
 
+/* General styles */
+
+button {
+  padding: 8px 15px;
+  cursor: pointer;
+  height: 40px;
+  font-size: 14px;
+  background-color: #029ae0;
+  color: white;
+  border-radius: 100px;
+  border: none;
+}
+
+/* Sidebar styles */
+
 #sidebar {
   background-color: #26282b;
   padding: 25px;
@@ -42,5 +57,13 @@ body {
   background-color: #029ae0;
 }
 
+/* Content styles*/
 #content {
+}
+
+header {
+  padding: 30px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
