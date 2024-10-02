@@ -1,5 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
+:root {
+  --primary: #029ae0;
+  --secondary-100: #073044;
+  --secondary-200: #415a66;
+  --secondary-300: #017cb3;
+  --secondary-400: #50b6e6;
+  --background: #202124;
+  --background-100: #26282b;
+  --background-200: #3b3c3f;
+}
+
 * {
   font-family: "Inter", sans-serif;
   margin: 0;
@@ -11,7 +22,7 @@ body {
   grid-template-columns: 300px 1fr;
   grid-template-areas: "sidebar content";
   height: 100dvh;
-  background-color: #202124;
+  background-color: var(--background);
   color: #ffffff;
 }
 
@@ -22,7 +33,7 @@ button {
   cursor: pointer;
   height: 40px;
   font-size: 14px;
-  background-color: #029ae0;
+  background-color: var(--primary);
   color: white;
   border-radius: 100px;
   border: none;
@@ -31,7 +42,7 @@ button {
 /* Sidebar styles */
 
 #sidebar {
-  background-color: #26282b;
+  background-color: var(--background-100);
   padding: 25px;
   display: flex;
   flex-direction: column;
@@ -54,7 +65,7 @@ button {
   border-radius: 10px;
   font-size: 14px;
   cursor: pointer;
-  background-color: #029ae0;
+  background-color: var(--primary);
 }
 
 /* Content styles*/
