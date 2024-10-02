@@ -88,6 +88,9 @@ button {
   border-radius: 10px;
   font-size: 14px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: start;
 }
 
 #nav-buttons li:hover {
@@ -113,6 +116,13 @@ header {
 
 .project-card:hover {
   outline: 2px solid var(--primary);
+}
+
+#projects-list {
+  display: grid;
+  padding: 20px 40px;
+  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 }
 
 .card-header {
