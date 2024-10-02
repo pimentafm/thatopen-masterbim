@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 :root {
   --primary: #029ae0;
-  --secondary-100: #073044;
-  --secondary-200: #415a66;
-  --secondary-300: #017cb3;
-  --secondary-400: #50b6e6;
+  --primary-100: #073044;
+  --primary-200: #415a66;
+  --primary-300: #017cb3;
+  --primary-400: #50b6e6;
   --background: #202124;
   --background-100: #26282b;
   --background-200: #3b3c3f;
@@ -28,12 +28,12 @@ body {
   display: grid;
   grid-template-columns: 300px 1fr;
   grid-template-areas: "sidebar content";
-  height: 100dvh;
+  height: 100vh;
   background-color: var(--background);
-  color: #ffffff;
+  color: #fff;
 }
 
-/* General styles */
+/* General Styles */
 
 h2 {
   font-size: var(--font-3xl);
@@ -69,31 +69,10 @@ button:hover {
   background-color: var(--primary-400);
 }
 
-label {
-  font-size: var(--font-base);
-  margin-bottom: 10px;
-  font-weight: 500;
-  color: rgba(150, 150, 150, 1);
+.page {
   display: flex;
-  align-items: center;
-  column-gap: 5px;
-}
-
-input,
-textarea,
-select {
-  color: white;
-  background-color: var(--background-200);
-  padding: 15px;
-  border-radius: 8px;
-  border: none;
-  font-size: var(--font-base);
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  outline: 2px solid var(--primary);
+  flex-direction: column;
+  height: 100%;
 }
 
 /* Sidebar styles */
@@ -124,14 +103,18 @@ select:focus {
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: start;
+  column-gap: 10px;
 }
 
 #nav-buttons li:hover {
   background-color: var(--primary);
 }
 
-/* Content styles*/
+/* Content styles */
+
+#content {
+}
+
 header {
   padding: 30px 40px;
   display: flex;
@@ -149,6 +132,31 @@ header {
   outline: 2px solid var(--primary);
 }
 
+.card-header {
+  display: flex;
+  column-gap: 20px;
+  padding: 15px 20px;
+  align-items: center;
+  justify-content: start;
+  border-bottom: 2px solid #3b3c3f;
+  height: 60px;
+}
+
+.card-content {
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  align-items: start;
+}
+
+.card-property {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 #projects-list {
   display: grid;
   padding: 20px 40px;
@@ -156,7 +164,7 @@ header {
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 }
 
-/* Form style */
+/* Form Styles */
 
 dialog {
   background-color: transparent;
@@ -193,50 +201,40 @@ form .form-field-container {
   flex-direction: column;
 }
 
-form .botton-buttons {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  row-gap: 25px;
-}
-
-.card-header {
-  display: flex;
-  column-gap: 20px;
-  padding: 15px 20px;
-  align-items: center;
-  justify-content: start;
-  border-bottom: 2px solid var(--background-200);
-  height: 60px;
-}
-
-.card-content {
-  padding: 30px 20px;
-  display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-  align-items: start;
-}
-
-.card-property {
+label {
+  font-size: var(--font-base);
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: rgba(150, 150, 150, 1);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  column-gap: 5px;
+}
+
+input,
+textarea,
+select {
+  color: white;
+  background-color: var(--background-200);
+  padding: 15px;
+  border-radius: 8px;
+  border: none;
+  font-size: var(--font-base);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--primary);
 }
 
 /* Project details page */
+
 .dashboard-card {
   background-color: var(--background-100);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-}
-
-.page {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
 }
 
 #project-details > .main-page-content {
@@ -245,4 +243,27 @@ form .botton-buttons {
   gap: 30px;
   grid-template-columns: 475px 1fr;
   height: 100%;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  outline: 2px solid #969696;
+  width: 100px;
+  text-align: center;
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary);
+  outline: none;
+}
+
+.todo-item {
+  padding: 20px;
+  background-color: var(--background-200);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.todo-item:hover {
+  background-color: var(--primary);
 }
