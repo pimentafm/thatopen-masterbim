@@ -79,6 +79,23 @@ label {
   column-gap: 5px;
 }
 
+input,
+textarea,
+select {
+  color: white;
+  background-color: var(--background-200);
+  padding: 15px;
+  border-radius: 8px;
+  border: none;
+  font-size: var(--font-base);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--primary);
+}
+
 /* Sidebar styles */
 
 #sidebar {
@@ -179,21 +196,11 @@ form .form-field-container {
   flex-direction: column;
 }
 
-input,
-textarea,
-select {
-  color: white;
-  background-color: var(--background-200);
-  padding: 15px;
-  border-radius: 8px;
-  border: none;
-  font-size: var(--font-base);
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  outline: 2px solid var(--primary);
+form .botton-buttons {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  row-gap: 25px;
 }
 
 .card-header {

@@ -25,15 +25,28 @@
     </aside>
     <main id="content">
       <dialog id="new-project-modal">
-        <form>
+        <form id="new-project-form">
           <h2>New Project</h2>
           <div class="input-list">
             <div class="form-field-container">
               <label
-                ><span class="material-symbols-rounded"> apartment </span
-                >Name</label
+                ><span class="material-icons-round">apartment</span>Name</label
               >
-              <input type="text" />
+              <input
+                name="name"
+                type="text"
+                placeholder="What's the name of your project?"
+              />
+              <p
+                style="
+                  color: gray;
+                  font-size: var(--font-sm);
+                  margin-top: 5px;
+                  font-style: italic;
+                "
+              >
+                TIP: Give it a short name
+              </p>
             </div>
             <div class="form-field-container">
               <label
@@ -69,14 +82,17 @@
                 <option>Finished</option>
               </select>
             </div>
+            <div class="form-field-container">
+              <label for="finishDate">
+                <span class="material-icons-round">calendar_month</span>
+                Finish Date
+              </label>
+              <input name="finishDate" type="date"></input>
+            </div>
           </div>
-          <div>
+          <div class="botton-buttons">
             <div
-              style="
-                display: flex;
-                margin: 10px 0px 10px auto;
-                column-gap: 10px;
-              "
+              style="display: flex; column-gap: 10px; justify-content: flex-end"
             >
               <button style="background-color: transparent">Cancel</button>
               <button style="background-color: rgb(18, 145, 18)">Accept</button>
@@ -104,8 +120,8 @@
               HC
             </p>
             <div>
-              <h5>Project name</h5>
-              <p>Project description...</p>
+              <h5>Hospital Center</h5>
+              <p>Community hospital located at downtown</p>
             </div>
           </div>
           <div class="card-content">
@@ -114,16 +130,16 @@
               <p>Active</p>
             </div>
             <div class="card-property">
-              <p style="color: #969696">Status</p>
-              <p>Active</p>
+              <p style="color: #969696">Role</p>
+              <p>Engineer</p>
             </div>
             <div class="card-property">
-              <p style="color: #969696">Status</p>
-              <p>Active</p>
+              <p style="color: #969696">Cost</p>
+              <p>$ 2.000.000,00</p>
             </div>
             <div class="card-property">
-              <p style="color: #969696">Status</p>
-              <p>Active</p>
+              <p style="color: #969696">Estimated progress</p>
+              <p>96%</p>
             </div>
           </div>
         </div>
