@@ -267,3 +267,56 @@ select:focus {
 .todo-item:hover {
   background-color: var(--primary);
 }
+
+/* Users page */
+
+#users-details > .main-page-content {
+  display: grid;
+  padding: 20px 40px;
+  gap: 30px;
+  grid-template-columns: 475px 1fr;
+  height: 100%;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  background-color: var(--background-200);
+  padding: 20px;
+  margin: 0 20px;
+  border-radius: 10px;
+  justify-content: space-between;
+}
+
+.profile-picture {
+  width: 40px; /* Adjust size as needed */
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+}
+
+.profile-name {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.badge {
+  background-color: #e0d4fc; /* Light purple color */
+  color: #7f5eff; /* Darker purple for text */
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.profile-project {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  column-gap: 10px;
+}
