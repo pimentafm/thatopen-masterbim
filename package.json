@@ -1,0 +1,15 @@
+{
+  "name": "that-open-master",
+  "version": "1.0.0",
+  "description": "That Open Company - Master BIM Software Developer",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "keywords": [],
+  "author": "Fernando Martins Pimenta",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.4.8"
+  }
+}
