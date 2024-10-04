@@ -24,14 +24,14 @@
       </ul>
     </aside>
     <main id="content">
-      <div id="projects-page" class="page" style="display: none">
+      <div id="projects-page" class="page" style="display: block">
         <dialog id="new-project-modal">
           <form id="new-project-form">
             <h2>New Project</h2>
             <div class="input-list">
               <div class="form-field-container">
                 <label
-                  ><span class="material-icons-round">apartment</span
+                  ><span class="material-symbols-rounded">apartment</span
                   >Name</label
                 >
                 <input
@@ -56,6 +56,7 @@
                   >Description</label
                 >
                 <textarea
+                  name="description"
                   cols="30"
                   rows="5"
                   placeholder="Give your description here"
@@ -66,7 +67,7 @@
                   ><span class="material-symbols-rounded"> account_circle </span
                   >Role</label
                 >
-                <select>
+                <select name="role">
                   <option>Architect</option>
                   <option>Engineer</option>
                   <option>Developer</option>
@@ -78,7 +79,7 @@
                     question_exchange </span
                   >Status</label
                 >
-                <select>
+                <select name="status">
                   <option>Pending</option>
                   <option>Active</option>
                   <option>Finished</option>
@@ -97,6 +98,7 @@
                 style="
                   display: flex;
                   column-gap: 10px;
+                  padding: 10px 20px;
                   justify-content: flex-end;
                 "
               >
@@ -111,7 +113,7 @@
         <header>
           <h2>Projects</h2>
           <div>
-            <button>New Project</button>
+            <button id="new-project-btn">New Project</button>
           </div>
         </header>
         <div id="projects-list">
@@ -467,7 +469,7 @@
           <div id="viewer-container" class="dashboard-card"></div>
         </div>
       </div>
-      <div id="users-page" class="page" style="display: block">
+      <div id="users-page" class="page" style="display: none">
         <header>
           <h2>Users</h2>
           <div
@@ -615,5 +617,7 @@
         </div>
       </div>
     </main>
+
+    <script src="./index.js"></script>
   </body>
 </html>
