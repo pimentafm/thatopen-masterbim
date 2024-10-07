@@ -9,19 +9,16 @@ export class ProjectsManager {
   }
 
   newProject(data: IProject) {
-    const projectNames = this.list.map((project) => {
-      return project.name;
-    });
+    const projectNames = this.list.map((project) => project.name);
     const nameInUse = projectNames.includes(data.name);
     if (nameInUse) {
-      throw new Error(`A project with the name "${data.name}" already exists`);
+      throw new Error(`A project with the name "${data.name}" already exist`);
     }
     const project = new Project(data);
-    console.log(project);
     project.ui.addEventListener("click", () => {
       const projectsPage = document.getElementById("projects-page");
       const detailsPage = document.getElementById("project-details");
-      if (!(projectsPage && detailsPage)) {
+      if (!projectsPage || !detailsPage) {
         return;
       }
       projectsPage.style.display = "none";
@@ -74,12 +71,17 @@ export class ProjectsManager {
   }
 
   exportToJSON(fileName: string = "projects") {
-    const json = JSON.stringify(this.list, null, 2);
+    function replacer(key, value) {
+      if (key !== "ui") {
+        return value;
+      }
+    }
+    const json = JSON.stringify(this.list, replacer, 2);
     const blob = new Blob([json], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${fileName}.json`;
+    a.download = fileName;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -98,9 +100,7 @@ export class ProjectsManager {
       for (const project of projects) {
         try {
           this.newProject(project);
-        } catch (err) {
-          console.error(err);
-        }
+        } catch (error) {}
       }
     });
     input.addEventListener("change", () => {

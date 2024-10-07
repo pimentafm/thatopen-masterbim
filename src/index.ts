@@ -33,17 +33,6 @@ if (newProjectBtn) {
   console.warn("No new project button found");
 }
 
-const alertModal = document.getElementById("alert-modal");
-
-function setAlertMessage(message: string) {
-  const alert = document.getElementById("alert-modal");
-  if (!alert) return;
-  const alertMessage = alert.querySelector("[data-alert-message='message']");
-  if (alertMessage) {
-    alertMessage.textContent = message;
-  }
-}
-
 const projectForm = document.getElementById("new-project-form");
 if (projectForm && projectForm instanceof HTMLFormElement) {
   projectForm.addEventListener("submit", (e) => {
@@ -63,13 +52,11 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
       projectForm.reset();
       closeModal("new-project-modal");
     } catch (err) {
-      setAlertMessage("Project name exists!");
-      showModal("alert-modal");
+      console.warn("Project name!");
     }
   });
 } else {
-  setAlertMessage("No new project form found");
-  showModal("alert-modal");
+  console.warn("No new project form found");
 }
 
 const closeFormBtn = document.getElementById("close-modal-btn");
