@@ -122,10 +122,14 @@
         <header>
           <h2>Projects</h2>
           <div style="display: flex; align-items: center; column-gap: 15px">
-            <span id="import-projects-btn" class="material-symbols-rounded"
+            <span
+              id="import-projects-btn"
+              class="material-symbols-rounded action-icon"
               >file_upload</span
             >
-            <span id="export-projects-btn" class="material-symbols-rounded"
+            <span
+              id="export-projects-btn"
+              class="material-symbols-rounded action-icon"
               >file_download</span
             >
             <button id="new-project-btn">
@@ -175,8 +179,10 @@
       <div id="project-details" class="page" style="display: none">
         <header>
           <div>
-            <h2>Hospital Center</h2>
-            <p style="color: #969696">Community hospital located at downtown</p>
+            <h2 data-project-info="name">Hospital Center</h2>
+            <p data-project-info="description" style="color: #969696">
+              Community hospital located at downtown
+            </p>
           </div>
         </header>
         <div class="main-page-content">
@@ -208,8 +214,10 @@
               </div>
               <div style="padding: 0 30px">
                 <div>
-                  <h5>Hospital Center</h5>
-                  <p>Community hospital located at downtown</p>
+                  <h5 data-project-info="cardName">Hospital Center</h5>
+                  <p data-project-info="cardDescription">
+                    Community hospital located at downtown
+                  </p>
                 </div>
                 <div
                   style="
@@ -489,6 +497,18 @@
           </div>
         </div>
       </div>
+      <dialog id="alert-modal">
+        <p data-alert-message="message" class="alert-message">Message</p>
+        <div class="botton-buttons">
+          <div
+            style="display: flex; column-gap: 10px; justify-content: flex-end"
+          >
+            <button type="submit" style="background-color: rgb(18, 145, 18)">
+              Close
+            </button>
+          </div>
+        </div>
+      </dialog>
     </main>
 
     <script type="module" src="./src/index.ts"></script>

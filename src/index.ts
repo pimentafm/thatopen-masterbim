@@ -33,6 +33,17 @@ if (newProjectBtn) {
   console.warn("No new project button found");
 }
 
+const alertModal = document.getElementById("alert-modal");
+
+function setAlertMessage(message: string) {
+  const alert = document.getElementById("alert-modal");
+  if (!alert) return;
+  const alertMessage = alert.querySelector("[data-alert-message='message']");
+  if (alertMessage) {
+    alertMessage.textContent = message;
+  }
+}
+
 const projectForm = document.getElementById("new-project-form");
 if (projectForm && projectForm instanceof HTMLFormElement) {
   projectForm.addEventListener("submit", (e) => {
@@ -52,11 +63,13 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
       projectForm.reset();
       closeModal("new-project-modal");
     } catch (err) {
-      window.alert(err);
+      setAlertMessage("Project name exists!");
+      showModal("alert-modal");
     }
   });
 } else {
-  console.warn("No new project form found");
+  setAlertMessage("No new project form found");
+  showModal("alert-modal");
 }
 
 const closeFormBtn = document.getElementById("close-modal-btn");
@@ -68,16 +81,25 @@ if (closeFormBtn) {
   console.warn("No close project form button found");
 }
 
+const closeAlertDialog = document.getElementById("alert-modal");
+if (closeAlertDialog) {
+  closeAlertDialog.addEventListener("click", () => {
+    closeModal("alert-modal");
+  });
+} else {
+  console.warn("No close project form button found");
+}
+
 const exportProjectsBtn = document.getElementById("export-projects-btn");
 if (exportProjectsBtn) {
   exportProjectsBtn.addEventListener("click", () => {
-    projectsManager.exportToJson();
+    projectsManager.exportToJSON();
   });
 }
 
 const importProjectsBtn = document.getElementById("import-projects-btn");
 if (importProjectsBtn) {
   importProjectsBtn.addEventListener("click", () => {
-    projectsManager.importFromJson();
+    projectsManager.importFromJSON();
   });
 }
