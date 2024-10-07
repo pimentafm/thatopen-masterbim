@@ -55,16 +55,15 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
       window.alert(err);
     }
   });
-
-  const closeFormBtn = document.getElementById("close-modal-btn");
-  if (closeFormBtn) {
-    closeFormBtn.addEventListener("click", () => {
-      projectForm.reset();
-      closeModal("new-project-modal");
-    });
-  } else {
-    console.warn("No close button found");
-  }
 } else {
   console.warn("No new project form found");
+}
+
+const closeFormBtn = document.getElementById("close-modal-btn");
+if (closeFormBtn) {
+  closeFormBtn.addEventListener("click", () => {
+    closeModal("new-project-modal");
+  });
+} else {
+  console.warn("No close project form button found");
 }
