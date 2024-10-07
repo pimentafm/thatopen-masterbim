@@ -67,3 +67,17 @@ if (closeFormBtn) {
 } else {
   console.warn("No close project form button found");
 }
+
+const exportProjectsBtn = document.getElementById("export-projects-btn");
+if (exportProjectsBtn) {
+  exportProjectsBtn.addEventListener("click", () => {
+    projectsManager.exportToJson();
+  });
+}
+
+const importProjectsBtn = document.getElementById("import-projects-btn");
+if (importProjectsBtn) {
+  importProjectsBtn.addEventListener("click", () => {
+    projectsManager.importFromJson();
+  });
+}

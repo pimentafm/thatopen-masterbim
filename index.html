@@ -121,12 +121,20 @@
         </dialog>
         <header>
           <h2>Projects</h2>
-          <div>
-            <button id="new-project-btn">New Project</button>
+          <div style="display: flex; align-items: center; column-gap: 15px">
+            <span id="import-projects-btn" class="material-symbols-rounded"
+              >file_upload</span
+            >
+            <span id="export-projects-btn" class="material-symbols-rounded"
+              >file_download</span
+            >
+            <button id="new-project-btn">
+              <span class="material-symbols-rounded">add</span>New Project
+            </button>
           </div>
         </header>
         <div id="projects-list">
-          <div class="project-card">
+          <!-- <div class="project-card">
             <div class="card-header">
               <p
                 style="
@@ -161,7 +169,7 @@
                 <p>96%</p>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <div id="project-details" class="page" style="display: none">
@@ -277,14 +285,14 @@
                   <div
                     style="display: flex; align-items: center; column-gap: 10px"
                   >
-                    <span class="material-icons-round">search</span>
+                    <span class="material-symbols-rounded">search</span>
                     <input
                       type="text"
                       placeholder="Search To-Do's by name"
                       style="width: 100%"
                     />
                   </div>
-                  <span class="material-icons-round">add</span>
+                  <span class="material-symbols-rounded">add</span>
                 </div>
               </div>
               <div
