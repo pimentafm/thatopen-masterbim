@@ -1,4 +1,5 @@
-import { IProject, Project, ProjectStatus, Role } from "./class/Project";
+import { IProject, ProjectStatus, Role } from "./class/Project";
+import { ProjectsManager } from "./class/ProjectsManager";
 
 function showModal(id) {
   const modal = document.getElementById(id);
@@ -9,6 +10,19 @@ function showModal(id) {
     console.warn(`No modal found with id: ${id}`);
   }
 }
+
+function closeModal(id) {
+  const modal = document.getElementById(id);
+
+  if (modal && modal instanceof HTMLDialogElement) {
+    modal.close();
+  } else {
+    console.warn(`No modal found with id: ${id}`);
+  }
+}
+
+const projectsListUI = document.getElementById("projects-list") as HTMLElement;
+const projectsManager = new ProjectsManager(projectsListUI);
 
 const newProjectBtn = document.getElementById("new-project-btn");
 if (newProjectBtn) {
@@ -33,9 +47,13 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
       finishDate: new Date(formData.get("finishDate") as string),
     };
 
-    const project = new Project(projectData);
-
-    console.log(project);
+    try {
+      const project = projectsManager.newProject(projectData);
+      projectForm.reset();
+      closeModal("new-project-modal");
+    } catch (err) {
+      window.alert(err);
+    }
   });
 } else {
   console.warn("No new project form found");

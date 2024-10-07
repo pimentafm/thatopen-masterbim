@@ -1,3 +1,6 @@
+import { v4 as uuidv4 } from "uuid";
+
+export class ProjectsManager {}
 export type ProjectStatus = "pending" | "active" | "finished";
 export type Role = "architect" | "engineer" | "developer";
 
@@ -19,6 +22,7 @@ export class Project implements IProject {
   ui: HTMLDivElement;
   cost: number = 0;
   progress: number = 0;
+  id: string;
 
   constructor(data) {
     this.name = data.name;
@@ -26,6 +30,7 @@ export class Project implements IProject {
     this.status = data.status;
     this.role = data.role;
     this.finishDate = data.finishDate;
+    this.id = uuidv4();
     this.setUI();
   }
 
