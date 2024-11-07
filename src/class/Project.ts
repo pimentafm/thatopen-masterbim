@@ -44,7 +44,7 @@ export class Project implements IProject {
       <div class="card-header">
         <p
           style="
-            background-color: #ca8134;
+            background-color: ${utils.getRandomColor()};
             padding: 10px;
             border-radius: 8px;
             aspect-ratio: 1;
