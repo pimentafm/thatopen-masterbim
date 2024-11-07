@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import { Utils } from "./Utils";
 
 export class ProjectsManager {}
 export type ProjectStatus = "pending" | "active" | "finished";
@@ -15,14 +16,15 @@ export interface IProject {
 export class Project implements IProject {
   name: string;
   description: string;
-  status: "pending" | "active" | "finished";
-  role: "architect" | "engineer" | "developer";
+  status: ProjectStatus;
+  role: Role;
   finishDate: Date;
 
   ui: HTMLDivElement;
   cost: number = 0;
   progress: number = 0;
   id: string;
+  avatarColor: "#ffffff";
 
   constructor(data) {
     for (const key in data) {
@@ -37,6 +39,7 @@ export class Project implements IProject {
     if (this.ui) return;
     this.ui = document.createElement("div");
     this.ui.className = "project-card";
+    const utils = new Utils();
     this.ui.innerHTML = `
       <div class="card-header">
         <p
@@ -47,7 +50,7 @@ export class Project implements IProject {
             aspect-ratio: 1;
           "
         >
-          HC
+          ${utils.getInitials(this.name)}
         </p>
         <div>
           <h5>${this.name}</h5>
