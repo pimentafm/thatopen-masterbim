@@ -68,4 +68,20 @@ export class UIManager {
       console.warn("Button was not found Id:", buttonId);
     }
   }
+
+  showErrorDialog(message: string) {
+    const dialog = document.getElementById("error-modal") as HTMLDialogElement;
+    const messageDiv = document.getElementById("error-message");
+
+    if (messageDiv) {
+      messageDiv.textContent = message;
+    }
+
+    dialog.style.display = "block";
+  }
+
+  closeErrorDialog() {
+    const dialog = document.getElementById("error-modal") as HTMLDialogElement;
+    dialog.style.display = "none";
+  }
 }

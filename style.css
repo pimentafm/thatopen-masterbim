@@ -110,11 +110,6 @@ button:hover {
   background-color: var(--primary);
 }
 
-/* Content styles */
-
-#content {
-}
-
 header {
   padding: 30px 40px;
   display: flex;
@@ -177,14 +172,15 @@ header {
   background-color: var(--primary);
 }
 
-#alert-modal {
+#error-modal {
   background-color: var(--background-200);
   border-radius: 10px;
+  top: 50%;
   padding: 10px;
   color: white;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  margin: 0 auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Form Styles */
@@ -192,7 +188,7 @@ header {
 dialog {
   background-color: transparent;
   border: none;
-  margin: auto;
+  margin: 0 auto;
 }
 
 dialog::backdrop {

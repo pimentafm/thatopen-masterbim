@@ -45,7 +45,7 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
       projectForm.reset();
       uiManager.toggleModal("new-project-modal");
     } catch (err) {
-      console.warn("Project name!");
+      uiManager.showErrorDialog((err as Error).message);
     }
   });
 } else {
@@ -83,3 +83,7 @@ if (importProjectsBtn) {
     projectsManager.importFromJSON();
   });
 }
+
+document
+  .getElementById("close-error-btn")
+  ?.addEventListener("click", uiManager.closeErrorDialog);

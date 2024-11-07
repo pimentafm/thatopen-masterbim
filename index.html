@@ -26,6 +26,16 @@
     <main id="content">
       <div id="projects-page" class="page" style="display: block">
         <dialog id="new-project-modal">
+          <dialog id="error-modal" style="display: none">
+            <p id="error-message" style="padding: 10px"></p>
+            <button
+              id="close-error-btn"
+              type="button"
+              style="background-color: #26282b; padding: 10px"
+            >
+              Close
+            </button>
+          </dialog>
           <form id="new-project-form">
             <h2>New Project</h2>
             <div class="input-list">
