@@ -16,37 +16,15 @@ if (userButton && usersPage instanceof HTMLElement) {
   uiManager.setPageButton(userButton, usersPage);
 }
 
-function showModal(id) {
-  const modal = document.getElementById(id);
-
-  if (modal && modal instanceof HTMLDialogElement) {
-    modal.showModal();
-  } else {
-    console.warn(`No modal found with id: ${id}`);
-  }
-}
-
-function closeModal(id) {
-  const modal = document.getElementById(id);
-
-  if (modal && modal instanceof HTMLDialogElement) {
-    modal.close();
-  } else {
-    console.warn(`No modal found with id: ${id}`);
-  }
-}
+uiManager.setModalButton("new-project-btn", "new-project-modal");
+uiManager.setModalButton(
+  "close-modal-btn",
+  "new-project-modal",
+  "new-project-form"
+);
 
 const projectsListUI = document.getElementById("projects-list") as HTMLElement;
 const projectsManager = new ProjectsManager(projectsListUI);
-
-const newProjectBtn = document.getElementById("new-project-btn");
-if (newProjectBtn) {
-  newProjectBtn.addEventListener("click", () => {
-    showModal("new-project-modal");
-  });
-} else {
-  console.warn("No new project button found");
-}
 
 const projectForm = document.getElementById("new-project-form");
 if (projectForm && projectForm instanceof HTMLFormElement) {
@@ -65,7 +43,7 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
     try {
       const project = projectsManager.newProject(projectData);
       projectForm.reset();
-      closeModal("new-project-modal");
+      uiManager.toggleModal("new-project-modal");
     } catch (err) {
       console.warn("Project name!");
     }
@@ -77,7 +55,7 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
 const closeFormBtn = document.getElementById("close-modal-btn");
 if (closeFormBtn) {
   closeFormBtn.addEventListener("click", () => {
-    closeModal("new-project-modal");
+    uiManager.toggleModal("new-project-modal");
   });
 } else {
   console.warn("No close project form button found");
@@ -86,7 +64,7 @@ if (closeFormBtn) {
 const closeAlertDialog = document.getElementById("alert-modal");
 if (closeAlertDialog) {
   closeAlertDialog.addEventListener("click", () => {
-    closeModal("alert-modal");
+    uiManager.toggleModal("new-project-modal");
   });
 } else {
   console.warn("No close project form button found");
