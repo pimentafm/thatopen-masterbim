@@ -46,6 +46,14 @@ export class UIManager {
   setModalButton(buttonId: string, modalId: string, formId?: string) {
     const btn = document.getElementById(buttonId);
 
+    if (buttonId == "close-modal-btn") {
+      document
+        .getElementById("close-modal-btn")
+        ?.addEventListener("click", () => {
+          this.toggleModal("new-project-modal");
+        });
+    }
+
     if (btn) {
       btn.addEventListener("click", () => {
         this.toggleModal(modalId);
