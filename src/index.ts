@@ -1,5 +1,20 @@
 import { IProject, ProjectStatus, Role } from "./class/Project";
 import { ProjectsManager } from "./class/ProjectsManager";
+import { UIManager } from "./class/UIManager";
+
+const uiManager = new UIManager();
+
+const projectsButton = document.getElementById("projects-button");
+const projectsPage = document.getElementById("projects-page");
+if (projectsButton && projectsPage instanceof HTMLElement) {
+  uiManager.setPageButton(projectsButton, projectsPage);
+}
+
+const userButton = document.getElementById("users-button");
+const usersPage = document.getElementById("users-page");
+if (userButton && usersPage instanceof HTMLElement) {
+  uiManager.setPageButton(userButton, usersPage);
+}
 
 function showModal(id) {
   const modal = document.getElementById(id);
