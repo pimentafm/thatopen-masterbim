@@ -87,3 +87,11 @@ if (importProjectsBtn) {
 document
   .getElementById("close-error-btn")
   ?.addEventListener("click", uiManager.closeErrorDialog);
+
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const finishDateInput = document.getElementById('finishDate') as HTMLInputElement;
+    if (!finishDateInput.value) {
+      const today = new Date().toISOString().split('T')[0];
+      finishDateInput.value = today;
+    }
+  });
