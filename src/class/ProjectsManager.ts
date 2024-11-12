@@ -12,8 +12,12 @@ export class ProjectsManager {
     const projectNames = this.list.map((project) => project.name);
     const nameInUse = projectNames.includes(data.name);
     if (nameInUse) {
-      throw new Error(`A project with the name "${data.name}" already exist`);
+      throw new Error(`A project with the name "${data.name}" already exist!`);
     }
+    if (data.name.length < 5) {
+      throw new Error(`Project name cannot be less than 5 characters!`);
+    }
+
     const project = new Project(data);
     project.ui.addEventListener("click", () => {
       const projectsPage = document.getElementById("projects-page");
