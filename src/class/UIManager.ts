@@ -36,6 +36,14 @@ export class UIManager {
 
   toggleModal(id: string) {
     const modal = document.getElementById(id);
+
+    const finishDateInput = document.getElementById('finishDate') as HTMLInputElement;
+    if (!finishDateInput.value) {
+      const today = new Date()
+      finishDateInput.value = new Date(today.setDate(today.getDate() + 30)).toISOString().split('T')[0];
+    }
+
+
     if (modal && modal instanceof HTMLDialogElement) {
       modal.open ? modal.close() : modal.showModal();
     } else {
