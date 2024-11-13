@@ -34,29 +34,47 @@ export class ProjectsManager {
     return project;
   }
 
-  editProject(data: IProject) {
-    const projectNames = this.list.map((project) => project.name);
-    const nameInUse = projectNames.includes(data.name);
-    if (nameInUse) {
-      throw new Error(`A project with the name "${data.name}" already exist!`);
+  editProject(name: string, updatedData: Partial<IProject>) {
+    const project = this.list.find((project) => project.name === name);
+    if (!project) {
+      throw new Error(`Project with the name "${name}" does not exist!`);
     }
-    if (data.name.length < 5) {
+  
+    // Update project properties
+    if (updatedData.name && updatedData.name.length >= 5) {
+      project.name = updatedData.name;
+    } else if (updatedData.name) {
       throw new Error(`Project name cannot be less than 5 characters!`);
     }
-
-    const project = new Project(data);
-    project.ui.addEventListener("click", () => {
-      const projectsPage = document.getElementById("projects-page");
-      const detailsPage = document.getElementById("project-details");
-      if (!projectsPage || !detailsPage) {
-        return;
-      }
-      projectsPage.style.display = "none";
-      detailsPage.style.display = "flex";
+  
+    if (updatedData.description) {
+      project.description = updatedData.description;
+    }
+  
+    if (updatedData.finishDate) {
+      project.finishDate = updatedData.finishDate;
+    }
+  
+    // Update the UI if necessary
+    const nameElement = project.ui.querySelector('[data-project-info="cardName"]');
+    if (nameElement) {
+      nameElement.textContent = project.name;
+    }
+    const descriptionElement = project.ui.querySelector('[data-project-info="description"]');
+    if (descriptionElement) {
+      descriptionElement.textContent = project.description;
+    }
+    const finishDateElement = project.ui.querySelector('[data-project-info="finishDate"]');
+    if (finishDateElement) {
+      finishDateElement.textContent = project.finishDate.toISOString();
+    }
+  
+    // Reflect changes in the details page if it is currently displayed
+    const detailsPage = document.getElementById("project-details");
+    if (detailsPage && detailsPage.style.display === "flex") {
       this.setDetailsPage(project);
-    });
-    this.ui.append(project.ui);
-    this.list.push(project);
+    }
+  
     return project;
   }
 

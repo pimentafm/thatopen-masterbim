@@ -53,26 +53,33 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
   console.warn("No new project form found");
 }
 
-const projectEditForm = document.getElementById("new-project-form");
+const projectEditForm = document.getElementById("edit-project-details-form");
 if (projectEditForm && projectEditForm instanceof HTMLFormElement) {
   projectEditForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    const formData = new FormData(projectEditForm);
 
-    const projectData: IProject = {
-      name: formData.get("name") as string,
-      description: formData.get("description") as string,
-      status: formData.get("status") as ProjectStatus,
-      role: formData.get("role") as Role,
-      finishDate: new Date(formData.get("finishDate") as string),
-    };
+    const nameElement = document.querySelector('h5[data-project-info="name"]');
+    if (nameElement) {
+      const name = nameElement.textContent;
+      if (name) {
+        const formData = new FormData(projectEditForm);
 
-    try {
-      const project = projectsManager.editProject(projectData);
-      projectEditForm.reset();
-      uiManager.toggleModal("edit-project-details-modal");
-    } catch (err) {
-      uiManager.showErrorDialog((err as Error).message);
+        const updatedData: Partial<IProject> = {
+          name: formData.get("name") as string,
+          description: formData.get("description") as string,
+          status: formData.get("status") as ProjectStatus,
+          role: formData.get("role") as Role,
+          finishDate: formData.get("finishDate") ? new Date(formData.get("finishDate") as string) : undefined,
+        };
+
+        try {
+          const project = projectsManager.editProject(name, updatedData);
+          projectEditForm.reset();
+          uiManager.toggleModal("edit-project-details-modal");
+        } catch (err) {
+          uiManager.showErrorDialog((err as Error).message);
+        }
+      }
     }
   });
 } else {
