@@ -48,7 +48,7 @@ export class ProjectsManager {
       description.textContent = project.description;
     }
     const cardName = detailsPage.querySelector(
-      "[data-project-info='cardName']"
+      "[data-project-info='name']"
     );
     if (cardName) {
       cardName.textContent = project.name;
@@ -57,12 +57,17 @@ export class ProjectsManager {
       "[data-project-info='cardDescription']"
     );
     if (cardDescription) {
-      cardDescription.textContent = project.name;
+      cardDescription.textContent = project.description;
     }
   }
 
   getProject(id: string) {
     const project = this.list.find((project) => project.id === id);
+    return project;
+  }
+
+  getProjectByName(name: string) {
+    const project = this.list.find((project) => project.name === name);
     return project;
   }
 

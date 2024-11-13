@@ -17,6 +17,7 @@ if (userButton && usersPage instanceof HTMLElement) {
 }
 
 uiManager.setModalButton("new-project-btn", "new-project-modal");
+uiManager.setModalButton("edit-project-details-btn", "edit-project-details-modal");
 uiManager.setModalButton(
   "close-modal-btn",
   "new-project-modal",
@@ -61,7 +62,16 @@ if (closeFormBtn) {
   console.warn("No close project form button found");
 }
 
-const closeAlertDialog = document.getElementById("alert-modal");
+const closeEditFormBtn = document.getElementById("edit-project-details-close-modal-btn");
+if (closeEditFormBtn) {
+  closeEditFormBtn.addEventListener("click", () => {
+    uiManager.toggleModal("edit-project-details-modal");
+  });
+} else {
+  console.warn("No close project form button found");
+}
+
+const closeAlertDialog = document.getElementById("error-modal");
 if (closeAlertDialog) {
   closeAlertDialog.addEventListener("click", () => {
     uiManager.toggleModal("new-project-modal");
@@ -84,6 +94,4 @@ if (importProjectsBtn) {
   });
 }
 
-document
-  .getElementById("close-error-btn")
-  ?.addEventListener("click", uiManager.closeErrorDialog);
+  

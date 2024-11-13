@@ -187,6 +187,110 @@
         </div>
       </div>
       <div id="project-details" class="page" style="display: none">
+        <dialog id="edit-project-details-modal">
+          <dialog id="error-modal" style="display: none">
+            <p id="error-message" style="padding: 10px"></p>
+            <button
+              id="close-error-btn"
+              type="button"
+              style="background-color: #26282b; padding: 10px"
+            >
+              Close
+            </button>
+          </dialog>
+          <form id="edit-project-details-form">
+            <h2>Edit Project Details</h2>
+            <div class="input-list">
+              <div class="form-field-container">
+                <label
+                  ><span class="material-symbols-rounded">apartment</span
+                  >Name</label
+                >
+                <input
+                  name="name"
+                  type="text"
+                  placeholder="What's the name of your project?"
+                />
+                <p
+                  style="
+                    color: gray;
+                    font-size: var(--font-sm);
+                    margin-top: 5px;
+                    font-style: italic;
+                  "
+                >
+                  TIP: Give it a short name
+                </p>
+              </div>
+              <div class="form-field-container">
+                <label
+                  ><span class="material-symbols-rounded"> subject </span
+                  >Description</label
+                >
+                <textarea
+                  name="description"
+                  cols="30"
+                  rows="5"
+                  placeholder="Give your description here"
+                ></textarea>
+              </div>
+              <div class="form-field-container">
+                <label
+                  ><span class="material-symbols-rounded"> account_circle </span
+                  >Role</label
+                >
+                <select name="role">
+                  <option>Architect</option>
+                  <option>Engineer</option>
+                  <option>Developer</option>
+                </select>
+              </div>
+              <div class="form-field-container">
+                <label
+                  ><span class="material-symbols-rounded">
+                    question_exchange </span
+                  >Status</label
+                >
+                <select name="status">
+                  <option>Pending</option>
+                  <option>Active</option>
+                  <option>Finished</option>
+                </select>
+              </div>
+              <div class="form-field-container">
+                <label for="finishDate">
+                  <span class="material-symbols-rounded">calendar_month</span>
+                  Finish Date
+                </label>
+                <input id="finishDate" name="finishDate" type="date" />
+              </div>
+            </div>
+            <div class="botton-buttons">
+              <div
+                style="
+                  display: flex;
+                  column-gap: 10px;
+                  padding: 10px 20px;
+                  justify-content: flex-end;
+                "
+              >
+                <button
+                  id="edit-project-details-close-modal-btn"
+                  type="button"
+                  style="background-color: transparent"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  style="background-color: rgb(18, 145, 18)"
+                >
+                  Accept
+                </button>
+              </div>
+            </div>
+          </form>
+        </dialog>
         <header>
           <div>
             <h2 data-project-info="name">Hospital Center</h2>
@@ -218,13 +322,13 @@
                 >
                   HC
                 </p>
-                <button class="btn-secondary">
+                <button id="edit-project-details-btn" class="btn-secondary">
                   <p style="width: 100%">Edit</p>
                 </button>
               </div>
               <div style="padding: 0 30px">
                 <div>
-                  <h5 data-project-info="cardName">Hospital Center</h5>
+                  <h5 data-project-info="name">Hospital Center</h5>
                   <p data-project-info="cardDescription">
                     Community hospital located at downtown
                   </p>
