@@ -81,6 +81,7 @@ export class ProjectsManager {
     const detailsPage = document.getElementById("project-details");
     if (detailsPage && detailsPage.style.display === "flex") {
       this.setDetailsPage(project);
+      this.setProjectProperties(project);
     }
   
     return project;
@@ -129,6 +130,28 @@ export class ProjectsManager {
     );
     if (cardDate) {
       cardDate.textContent = project.finishDate.toISOString().split('T')[0];
+    }
+  }
+
+  private setProjectProperties(project: Project) {
+    const detailsPage = document.getElementById("projects-page");
+    if (!detailsPage) return;
+
+    const name = detailsPage.querySelector("[data-project-info='nameProperty']");
+    if (name) {
+      name.textContent = project.name;
+    }
+    const description = detailsPage.querySelector("[data-project-info='descriptionProperty']");
+    if (description) {
+      description.textContent = project.description;
+    }
+    const status = detailsPage.querySelector("[data-project-info='statusProperty']");
+    if (status) {
+      status.textContent = project.status;
+    }
+    const role = detailsPage.querySelector("[data-project-info='roleProperty']");
+    if (role) {
+      role.textContent = project.role;
     }
   }
 
