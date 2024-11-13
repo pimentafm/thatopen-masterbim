@@ -93,7 +93,7 @@ export class ProjectsManager {
       description.textContent = project.description;
     }
     const cardName = detailsPage.querySelector(
-      "[data-project-info='cardName']"
+      'h5[data-project-info="name"]'
     );
     if (cardName) {
       cardName.textContent = project.name;
