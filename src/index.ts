@@ -58,7 +58,7 @@ if (projectEditForm && projectEditForm instanceof HTMLFormElement) {
   projectEditForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const nameElement = document.querySelector('h5[data-project-info="name"]');
+    const nameElement = document.querySelector('[data-project-info="cardName"]');
     if (nameElement) {
       const name = nameElement.textContent;
       if (name) {

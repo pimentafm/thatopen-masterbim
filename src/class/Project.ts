@@ -60,19 +60,19 @@ export class Project implements IProject {
       <div class="card-content">
         <div class="card-property">
           <p style="color: #969696">Status</p>
-          <p>${this.status}</p>
+          <p data-project-info="statusProperty" >${this.status}</p>
         </div>
         <div class="card-property">
           <p style="color: #969696">Role</p>
-          <p>${this.role}</p>
+          <p data-project-info="roleProperty" >${this.role}</p>
         </div>
         <div class="card-property">
           <p style="color: #969696">Cost</p>
-          <p>$${this.cost}</p>
+          <p data-project-info="costProperty" >$${this.cost}</p>
         </div>
         <div class="card-property">
           <p style="color: #969696">Estimated progress</p>
-          <p>${this.progress * 100}%</p>
+          <p data-project-info="progressProperty">${this.progress * 100}%</p>
         </div>
       </div>
     `;

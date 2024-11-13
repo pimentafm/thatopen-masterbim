@@ -50,7 +50,15 @@ export class ProjectsManager {
     if (updatedData.description) {
       project.description = updatedData.description;
     }
+
+    if (updatedData.status) {
+      project.status = updatedData.status;
+    }
   
+    if (updatedData.role) {
+      project.role = updatedData.role;
+    }
+
     if (updatedData.finishDate) {
       project.finishDate = updatedData.finishDate;
     }
@@ -60,11 +68,11 @@ export class ProjectsManager {
     if (nameElement) {
       nameElement.textContent = project.name;
     }
-    const descriptionElement = project.ui.querySelector('[data-project-info="description"]');
+    const descriptionElement = project.ui.querySelector('[data-project-info="cardDescription"]');
     if (descriptionElement) {
       descriptionElement.textContent = project.description;
     }
-    const finishDateElement = project.ui.querySelector('[data-project-info="finishDate"]');
+    const finishDateElement = project.ui.querySelector('[data-project-info="cardDate"]');
     if (finishDateElement) {
       finishDateElement.textContent = project.finishDate.toISOString();
     }
@@ -93,16 +101,34 @@ export class ProjectsManager {
       description.textContent = project.description;
     }
     const cardName = detailsPage.querySelector(
-      'h5[data-project-info="name"]'
+      '[data-project-info="cardName"]'
     );
     if (cardName) {
       cardName.textContent = project.name;
     }
     const cardDescription = detailsPage.querySelector(
-      "[data-project-info='cardDescription']"
+      '[data-project-info="cardDescription"]'
     );
     if (cardDescription) {
       cardDescription.textContent = project.description;
+    }
+    const cardStatus = detailsPage.querySelector(
+      '[data-project-info="cardStatus"]'
+    );
+    if (cardStatus) {
+      cardStatus.textContent = project.status;
+    }
+    const cardRole = detailsPage.querySelector(
+      '[data-project-info="cardRole"]'
+    );
+    if (cardRole) {
+      cardRole.textContent = project.role;
+    }
+    const cardDate = detailsPage.querySelector(
+      '[data-project-info="cardDate"]'
+    );
+    if (cardDate) {
+      cardDate.textContent = project.finishDate.toISOString().split('T')[0];
     }
   }
 
