@@ -53,6 +53,32 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
   console.warn("No new project form found");
 }
 
+const projectEditForm = document.getElementById("new-project-form");
+if (projectEditForm && projectEditForm instanceof HTMLFormElement) {
+  projectEditForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(projectEditForm);
+
+    const projectData: IProject = {
+      name: formData.get("name") as string,
+      description: formData.get("description") as string,
+      status: formData.get("status") as ProjectStatus,
+      role: formData.get("role") as Role,
+      finishDate: new Date(formData.get("finishDate") as string),
+    };
+
+    try {
+      const project = projectsManager.editProject(projectData);
+      projectEditForm.reset();
+      uiManager.toggleModal("edit-project-details-modal");
+    } catch (err) {
+      uiManager.showErrorDialog((err as Error).message);
+    }
+  });
+} else {
+  console.warn("No new project form found");
+}
+
 const closeFormBtn = document.getElementById("close-modal-btn");
 if (closeFormBtn) {
   closeFormBtn.addEventListener("click", () => {
