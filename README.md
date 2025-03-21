@@ -1,26 +1,43 @@
 <div align="center">
-<h1>Master BIM Software Developer</h1>
-<h2>Creating Static Websites</h2>
-<br>
-<img width="600" src="assets/01.png" alt="OBahia - Análise de séries temporais">
-<br>
-<br>
+  <h1>Master BIM Software Developer</h1>
+  <p>A comprehensive solution for Building Information Modeling development</p>
+  <br>
+  <img width="600" src="assets/01.png" alt="Master BIM Software Developer Interface">
+  <br>
+  <br>
 </div>
 
 <div align="center">
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/pimentafm/thatopen-masterbim-mod-01?color=blue&style=for-the-badge">
-  <a href="https://github.com/pimentafm" target="_blank">
-    <img alt="Made by Fernando Pimenta" src="https://img.shields.io/badge/made%20by-Fernando%20Pimenta-blue?style=for-the-badge">
-  </a>
-
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  <img alt="HTML5" src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+  <img alt="CSS3" src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+  <img alt="Three.js" src="https://img.shields.io/badge/Three.js-black?style=for-the-badge&logo=three.js&logoColor=white">
 </div>
 
-<div align="center">
 
-[![made-with-js](https://img.shields.io/badge/JavaScript-yellow?style=for-the-badge)](https://www.javascript.com)
-[![made-with-html](https://img.shields.io/badge/HTML-orange?style=for-the-badge)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![made-with-cdd](https://img.shields.io/badge/CSS-blue?style=for-the-badge)](https://reactjs.org/)
+## 🚀 Getting Started
 
-</div>
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- [Yarn](https://yarnpkg.com/) package manager
+
+### Installation
+
+1. Clone the repository
+```shell
+git clone https://github.com/pimentafm/thatopen-masterbim.git
+cd thatopen-masterbim
+```
+
+2. Install dependencies
+```shell
+yarn
+```
+
+3. Start the development server
+```shell
+yarn dev
+```
 
 Developed by Fernando Pimenta [My Github!](https://github.com/pimentafm) :bird: :sunglasses:
