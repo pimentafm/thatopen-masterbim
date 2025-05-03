@@ -6,6 +6,16 @@ export class ProjectsManager {
 
   constructor(container: HTMLElement) {
     this.ui = container;
+
+    const project = this.newProject({
+      name: "Project 1",
+      description: "Description 1",
+      status: "active",
+      role: "developer",
+      finishDate: new Date("2029-12-31"),
+    })
+
+    project.ui.click();
   }
 
   newProject(data: IProject) {

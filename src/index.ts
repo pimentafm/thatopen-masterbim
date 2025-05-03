@@ -1,3 +1,6 @@
+import * as THREE from "three";
+
+
 import { IProject, ProjectStatus, Role } from "./class/Project";
 import { ProjectsManager } from "./class/ProjectsManager";
 import { UIManager } from "./class/UIManager";
@@ -87,3 +90,16 @@ if (importProjectsBtn) {
 document
   .getElementById("close-error-btn")
   ?.addEventListener("click", uiManager.closeErrorDialog);
+
+
+  const scene = new THREE.Scene();
+  const viewerContainer = document.getElementById("viewer-container") as HTMLElement
+  const containerDimensions = viewerContainer.getBoundingClientRect()
+  const aspectRatio = containerDimensions.width / containerDimensions.height
+  const camera = new THREE.PerspectiveCamera(75, aspectRatio)
+
+  const renderer = new THREE.WebGLRenderer()
+  viewerContainer.append(renderer.domElement)
+  renderer.setSize(containerDimensions.width, containerDimensions.height)
+
+  renderer.render(scene, camera)
