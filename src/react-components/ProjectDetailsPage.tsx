@@ -2,6 +2,8 @@ import * as React from "react";
 import * as Router from "react-router-dom";
 import { ProjectsManager } from "../class/ProjectsManager";
 
+import { ThreeViewer } from "./ThreeViewer";
+
 interface Props {
   projectsManager: ProjectsManager;
 }
@@ -194,11 +196,7 @@ export function ProjectDetailsPage(props: Props) {
             </div>
           </div>
         </div>
-        <div
-          id="viewer-container"
-          className="dashboard-card"
-          style={{ minWidth: 0 }}
-        />
+        <ThreeViewer />
       </div>
     </div>
   );
