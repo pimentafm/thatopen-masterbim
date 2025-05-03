@@ -4,6 +4,8 @@ import { ProjectsManager } from "../class/ProjectsManager";
 
 import { ThreeViewer } from "./ThreeViewer";
 
+import { deleteDocument } from "../firebase";
+
 interface Props {
   projectsManager: ProjectsManager;
 }
@@ -21,6 +23,12 @@ export function ProjectDetailsPage(props: Props) {
     return <p>The Project ID {routeParams.id} wasn't found.</p>;
   }
 
+  const navigateTo = Router.useNavigate();
+  props.projectsManager.deleteProject = async (id) => {
+    await deleteDocument("/projects", id);
+    navigateTo("/");
+  };
+
   return (
     <div id="project-details" className="page">
       <header>
@@ -30,6 +38,12 @@ export function ProjectDetailsPage(props: Props) {
             {project.description}
           </p>
         </div>
+        <button
+          onClick={() => props.projectsManager.deleteProject(project.id)}
+          style={{ backgroundColor: "red" }}
+        >
+          Delete project
+        </button>
       </header>
       <div className="main-page-content">
         <div style={{ display: "flex", flexDirection: "column", rowGap: 30 }}>

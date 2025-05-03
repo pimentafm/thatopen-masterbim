@@ -3,17 +3,7 @@ import { IProject, Project } from "./Project";
 export class ProjectsManager {
   list: Project[] = [];
   onProjectCreated = (project: Project) => {};
-  onProjectDeleted = () => {};
-
-  constructor() {
-    this.newProject({
-      name: "Project 1",
-      description: "Description 1",
-      status: "active",
-      role: "developer",
-      finishDate: new Date("2029-12-31"),
-    });
-  }
+  onProjectDeleted = (id: string) => {};
 
   filterProjects(value: string) {
     const filteredProjects = this.list.filter((project) => {
@@ -23,7 +13,7 @@ export class ProjectsManager {
     return filteredProjects;
   }
 
-  newProject(data: IProject) {
+  newProject(data: IProject, id?: string) {
     const projectNames = this.list.map((project) => project.name);
     const nameInUse = projectNames.includes(data.name);
     if (nameInUse) {
@@ -33,7 +23,7 @@ export class ProjectsManager {
       throw new Error(`Project name cannot be less than 5 characters!`);
     }
 
-    const project = new Project(data);
+    const project = new Project(data, id);
     this.list.push(project);
     this.onProjectCreated(project);
     return project;
@@ -49,7 +39,7 @@ export class ProjectsManager {
     if (!project) return;
     const remaining = this.list.filter((project) => project.id !== id);
     this.list = remaining;
-    this.onProjectDeleted();
+    this.onProjectDeleted(id);
   }
 
   exportToJSON(fileName: string = "projects") {

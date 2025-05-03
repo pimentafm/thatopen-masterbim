@@ -25,11 +25,11 @@ export class Project implements IProject {
   id: string;
   avatarColor: "#ffffff";
 
-  constructor(data) {
+  constructor(data: IProject, id = uuidv4()) {
     for (const key in data) {
       this[key] = data[key];
     }
 
-    this.id = uuidv4();
+    this.id = id;
   }
 }
