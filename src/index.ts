@@ -94,14 +94,27 @@ document
 
   const scene = new THREE.Scene();
   const viewerContainer = document.getElementById("viewer-container") as HTMLElement
-  const containerDimensions = viewerContainer.getBoundingClientRect()
-  const aspectRatio = containerDimensions.width / containerDimensions.height
-  const camera = new THREE.PerspectiveCamera(75, aspectRatio)
+  const camera = new THREE.PerspectiveCamera(75)
   camera.position.z = 5
 
-  const renderer = new THREE.WebGLRenderer()
+  const renderer = new THREE.WebGLRenderer({
+    alpha: true,
+    antialias: true,
+  })
+
   viewerContainer.append(renderer.domElement)
-  renderer.setSize(containerDimensions.width, containerDimensions.height)
+
+  function resizeViewer() {
+    const containerDimensions = viewerContainer.getBoundingClientRect()
+    renderer.setSize(containerDimensions.width, containerDimensions.height)
+    const aspectRatio = containerDimensions.width / containerDimensions.height
+    camera.aspect = aspectRatio
+    camera.updateProjectionMatrix()
+  }
+
+  window.addEventListener("resize", resizeViewer)
+
+  resizeViewer()
 
   const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
   const material = new THREE.MeshStandardMaterial()
