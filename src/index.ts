@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import { IProject, ProjectStatus, Role } from "./class/Project";
@@ -135,3 +136,25 @@ document
 
   renderScene()
   
+  const axes = new THREE.AxesHelper()
+  const grid = new THREE.GridHelper()
+
+  grid.material.transparent = true
+  grid.material.opacity = 0.4
+  grid.material.color = new THREE.Color("#808080")
+
+  scene.add(axes, grid)
+
+  const gui = new GUI()
+  const cubeControls = gui.addFolder("Cube")
+
+  cubeControls.add(cube.position, "x", -10, 10, 1)
+  cubeControls.add(cube.position, "y", -10, 10, 1)
+  cubeControls.add(cube.position, "z", -10, 10, 1)
+  cubeControls.add(cube, "visible")
+  cubeControls.addColor(cube.material, "color")
+  cubeControls.add(cube.material, "wireframe")
+  cubeControls.add(cube.rotation, "x", 0, Math.PI * 2, 0.1)
+  cubeControls.add(cube.rotation, "y", 0, Math.PI * 2, 0.1)
+  cubeControls.add(cube.rotation, "z", 0, Math.PI * 2, 0.1)
+  cubeControls.add(cube.material, "metalness", 0, 1, 0.01)
