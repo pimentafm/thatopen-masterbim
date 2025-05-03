@@ -1,3 +1,8 @@
+import * as React from "react";
+import * as ReactDOM from "react-dom/client";
+
+import { Sidebar } from "./react-components/Sidebar";
+
 import * as THREE from "three";
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -7,6 +12,12 @@ import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
 import { IProject, ProjectStatus, Role } from "./class/Project";
 import { ProjectsManager } from "./class/ProjectsManager";
 import { UIManager } from "./class/UIManager";
+
+const rootElement = document.getElementById("app") as HTMLElement;
+const appRoot = ReactDOM.createRoot(rootElement)
+appRoot.render(
+  <Sidebar />
+)
 
 const uiManager = new UIManager();
 
