@@ -15,6 +15,9 @@ import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
 import { IProject, ProjectStatus, Role } from "./class/Project";
 import { UIManager } from "./class/UIManager";
 import { ProjectDetailsPage } from "./react-components/ProjectDetailsPage";
+import { ProjectsManager } from "./class/ProjectsManager";
+
+const projectsManager = new ProjectsManager();
 
 const rootElement = document.getElementById("app") as HTMLElement;
 const appRoot = ReactDOM.createRoot(rootElement);
@@ -22,8 +25,14 @@ appRoot.render(
   <BrowserRouter>
     <Sidebar />
     <Routes>
-      <Route path="/" element={<ProjectsPage />} />
-      <Route path="/project" element={<ProjectDetailsPage />} />
+      <Route
+        path="/"
+        element={<ProjectsPage projectsManager={projectsManager} />}
+      />
+      <Route
+        path="/project/:id"
+        element={<ProjectDetailsPage projectsManager={projectsManager} />}
+      />
     </Routes>
   </BrowserRouter>
 );

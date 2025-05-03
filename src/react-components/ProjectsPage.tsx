@@ -4,20 +4,30 @@ import { useState, useEffect } from "react";
 import { IProject, Project, ProjectStatus, Role } from "../class/Project";
 import { ProjectsManager } from "../class/ProjectsManager";
 import { ProjectCard } from "./ProjectCard";
+import * as Router from "react-router-dom";
 
-export function ProjectsPage() {
-  const [projectsManager] = useState(new ProjectsManager());
-  const [projects, setProjects] = useState<Project[]>(projectsManager.list);
+interface Props {
+  projectsManager: ProjectsManager;
+}
 
-  projectsManager.onProjectCreated = () => {
-    setProjects([...projectsManager.list]);
+export function ProjectsPage(props: Props) {
+  const [projects, setProjects] = useState<Project[]>(
+    props.projectsManager.list
+  );
+
+  props.projectsManager.onProjectCreated = () => {
+    setProjects([...props.projectsManager.list]);
   };
-  projectsManager.onProjectDeleted = () => {
-    setProjects([...projectsManager.list]);
+  props.projectsManager.onProjectDeleted = () => {
+    setProjects([...props.projectsManager.list]);
   };
 
   const projectCards = projects.map((project) => {
-    return <ProjectCard key={project.id} project={project} />;
+    return (
+      <Router.Link to={`/project/${project.id}`} key={project.id}>
+        <ProjectCard project={project} />
+      </Router.Link>
+    );
   });
 
   useEffect(() => {
@@ -50,7 +60,7 @@ export function ProjectsPage() {
     };
 
     try {
-      const project = projectsManager.newProject(projectData);
+      const project = props.projectsManager.newProject(projectData);
       projectForm.reset();
 
       const modal = document.getElementById("new-project-modal");

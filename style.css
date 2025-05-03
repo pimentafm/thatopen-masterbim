@@ -157,6 +157,11 @@ header {
   width: 100%;
 }
 
+#projects-list a {
+  color: white;
+  text-decoration: none;
+}
+
 #projects-list {
   display: grid;
   padding: 20px 40px;
