@@ -2,17 +2,17 @@ import { IProject, Project } from "./Project";
 
 export class ProjectsManager {
   list: Project[] = [];
+  onProjectCreated = (project: Project) => {};
+  onProjectDeleted = () => {};
 
   constructor() {
-    const project = this.newProject({
+    this.newProject({
       name: "Project 1",
       description: "Description 1",
       status: "active",
       role: "developer",
       finishDate: new Date("2029-12-31"),
     });
-
-    project.ui.click();
   }
 
   newProject(data: IProject) {
@@ -26,45 +26,9 @@ export class ProjectsManager {
     }
 
     const project = new Project(data);
-    project.ui.addEventListener("click", () => {
-      const projectsPage = document.getElementById("projects-page");
-      const detailsPage = document.getElementById("project-details");
-      if (!projectsPage || !detailsPage) {
-        return;
-      }
-      projectsPage.style.display = "none";
-      detailsPage.style.display = "flex";
-      this.setDetailsPage(project);
-    });
     this.list.push(project);
+    this.onProjectCreated(project);
     return project;
-  }
-
-  private setDetailsPage(project: Project) {
-    const detailsPage = document.getElementById("project-details");
-    if (!detailsPage) return;
-    const name = detailsPage.querySelector("[data-project-info='name']");
-    if (name) {
-      name.textContent = project.name;
-    }
-    const description = detailsPage.querySelector(
-      "[data-project-info='description']"
-    );
-    if (description) {
-      description.textContent = project.description;
-    }
-    const cardName = detailsPage.querySelector(
-      "[data-project-info='cardName']"
-    );
-    if (cardName) {
-      cardName.textContent = project.name;
-    }
-    const cardDescription = detailsPage.querySelector(
-      "[data-project-info='cardDescription']"
-    );
-    if (cardDescription) {
-      cardDescription.textContent = project.name;
-    }
   }
 
   getProject(id: string) {
@@ -75,9 +39,9 @@ export class ProjectsManager {
   deleteProject(id: string) {
     const project = this.getProject(id);
     if (!project) return;
-    project.ui.remove();
     const remaining = this.list.filter((project) => project.id !== id);
     this.list = remaining;
+    this.onProjectDeleted();
   }
 
   exportToJSON(fileName: string = "projects") {

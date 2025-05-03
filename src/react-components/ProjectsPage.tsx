@@ -1,9 +1,28 @@
 import * as React from "react";
-import { IProject, ProjectStatus, Role } from "../class/Project";
+import { useState, useEffect } from "react";
+
+import { IProject, Project, ProjectStatus, Role } from "../class/Project";
 import { ProjectsManager } from "../class/ProjectsManager";
+import { ProjectCard } from "./ProjectCard";
 
 export function ProjectsPage() {
-  const projectsManager = new ProjectsManager();
+  const [projectsManager] = useState(new ProjectsManager());
+  const [projects, setProjects] = useState<Project[]>(projectsManager.list);
+
+  projectsManager.onProjectCreated = () => {
+    setProjects([...projectsManager.list]);
+  };
+  projectsManager.onProjectDeleted = () => {
+    setProjects([...projectsManager.list]);
+  };
+
+  const projectCards = projects.map((project) => {
+    return <ProjectCard key={project.id} project={project} />;
+  });
+
+  useEffect(() => {
+    console.log("Projects state updated", projects);
+  }, [projects]);
 
   const onNewProjectClick = () => {
     const modal = document.getElementById("new-project-modal");
@@ -32,7 +51,6 @@ export function ProjectsPage() {
 
     try {
       const project = projectsManager.newProject(projectData);
-      console.log("Project:::: ", project);
       projectForm.reset();
 
       const modal = document.getElementById("new-project-modal");
@@ -175,44 +193,7 @@ export function ProjectsPage() {
           </button>
         </div>
       </header>
-      <div id="projects-list">
-        {/* <div class="project-card">
-        <div class="card-header">
-          <p
-            style="
-              background-color: #ca8134;
-              padding: 10px;
-              border-radius: 8px;
-              aspect-ratio: 1;
-            "
-          >
-            HC
-          </p>
-          <div>
-            <h5>Hospital Center</h5>
-            <p>Community hospital located at downtown</p>
-          </div>
-        </div>
-        <div class="card-content">
-          <div class="card-property">
-            <p style="color: #969696">Status</p>
-            <p>Active</p>
-          </div>
-          <div class="card-property">
-            <p style="color: #969696">Role</p>
-            <p>Engineer</p>
-          </div>
-          <div class="card-property">
-            <p style="color: #969696">Cost</p>
-            <p>$ 2.000.000,00</p>
-          </div>
-          <div class="card-property">
-            <p style="color: #969696">Estimated progress</p>
-            <p>96%</p>
-          </div>
-        </div>
-      </div> */}
-      </div>
+      <div id="projects-list">{projectCards}</div>
     </div>
   );
 }
