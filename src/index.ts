@@ -1,5 +1,5 @@
 import * as THREE from "three";
-
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import { IProject, ProjectStatus, Role } from "./class/Project";
 import { ProjectsManager } from "./class/ProjectsManager";
@@ -97,9 +97,28 @@ document
   const containerDimensions = viewerContainer.getBoundingClientRect()
   const aspectRatio = containerDimensions.width / containerDimensions.height
   const camera = new THREE.PerspectiveCamera(75, aspectRatio)
+  camera.position.z = 5
 
   const renderer = new THREE.WebGLRenderer()
   viewerContainer.append(renderer.domElement)
   renderer.setSize(containerDimensions.width, containerDimensions.height)
 
-  renderer.render(scene, camera)
+  const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
+  const material = new THREE.MeshStandardMaterial()
+  const cube = new THREE.Mesh(boxGeometry, material)
+
+  const directionalLight = new THREE.DirectionalLight()
+  const ambientLight = new THREE.AmbientLight()
+  ambientLight.intensity = 0.4
+
+  scene.add(cube, directionalLight, ambientLight)
+
+  const cameraControls = new OrbitControls(camera, viewerContainer)
+  
+  function renderScene(){
+    renderer.render(scene, camera)
+    requestAnimationFrame(renderScene)
+  }
+
+  renderScene()
+  
