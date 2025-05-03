@@ -2,18 +2,15 @@ import { IProject, Project } from "./Project";
 
 export class ProjectsManager {
   list: Project[] = [];
-  ui: HTMLElement;
 
-  constructor(container: HTMLElement) {
-    this.ui = container;
-
+  constructor() {
     const project = this.newProject({
       name: "Project 1",
       description: "Description 1",
       status: "active",
       role: "developer",
       finishDate: new Date("2029-12-31"),
-    })
+    });
 
     project.ui.click();
   }
@@ -39,7 +36,6 @@ export class ProjectsManager {
       detailsPage.style.display = "flex";
       this.setDetailsPage(project);
     });
-    this.ui.append(project.ui);
     this.list.push(project);
     return project;
   }

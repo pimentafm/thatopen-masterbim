@@ -2,11 +2,12 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 
 import { Sidebar } from "./react-components/Sidebar";
+import { ProjectsPage } from "./react-components/ProjectsPage";
 
 import * as THREE from "three";
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { OBJLoader} from "three/examples/jsm/loaders/OBJLoader.js";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
 
 import { IProject, ProjectStatus, Role } from "./class/Project";
@@ -14,10 +15,13 @@ import { ProjectsManager } from "./class/ProjectsManager";
 import { UIManager } from "./class/UIManager";
 
 const rootElement = document.getElementById("app") as HTMLElement;
-const appRoot = ReactDOM.createRoot(rootElement)
+const appRoot = ReactDOM.createRoot(rootElement);
 appRoot.render(
-  <Sidebar />
-)
+  <>
+    <Sidebar />
+    <ProjectsPage />
+  </>
+);
 
 const uiManager = new UIManager();
 
@@ -41,7 +45,7 @@ uiManager.setModalButton(
 );
 
 const projectsListUI = document.getElementById("projects-list") as HTMLElement;
-const projectsManager = new ProjectsManager(projectsListUI);
+//const projectsManager = new ProjectsManager(projectsListUI);
 
 const projectForm = document.getElementById("new-project-form");
 if (projectForm && projectForm instanceof HTMLFormElement) {
@@ -58,7 +62,7 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
     };
 
     try {
-      const project = projectsManager.newProject(projectData);
+      //const project = projectsManager.newProject(projectData);
       projectForm.reset();
       uiManager.toggleModal("new-project-modal");
     } catch (err) {
@@ -90,14 +94,14 @@ if (closeAlertDialog) {
 const exportProjectsBtn = document.getElementById("export-projects-btn");
 if (exportProjectsBtn) {
   exportProjectsBtn.addEventListener("click", () => {
-    projectsManager.exportToJSON();
+    //projectsManager.exportToJSON();
   });
 }
 
 const importProjectsBtn = document.getElementById("import-projects-btn");
 if (importProjectsBtn) {
   importProjectsBtn.addEventListener("click", () => {
-    projectsManager.importFromJSON();
+    //projectsManager.importFromJSON();
   });
 }
 
@@ -105,81 +109,82 @@ document
   .getElementById("close-error-btn")
   ?.addEventListener("click", uiManager.closeErrorDialog);
 
+const scene = new THREE.Scene();
+const viewerContainer = document.getElementById(
+  "viewer-container"
+) as HTMLElement;
+const camera = new THREE.PerspectiveCamera(75);
+camera.position.z = 5;
 
-  const scene = new THREE.Scene();
-  const viewerContainer = document.getElementById("viewer-container") as HTMLElement
-  const camera = new THREE.PerspectiveCamera(75)
-  camera.position.z = 5
+const renderer = new THREE.WebGLRenderer({
+  alpha: true,
+  antialias: true,
+});
 
-  const renderer = new THREE.WebGLRenderer({
-    alpha: true,
-    antialias: true,
-  })
+viewerContainer.append(renderer.domElement);
 
-  viewerContainer.append(renderer.domElement)
+function resizeViewer() {
+  const containerDimensions = viewerContainer.getBoundingClientRect();
+  renderer.setSize(containerDimensions.width, containerDimensions.height);
+  const aspectRatio = containerDimensions.width / containerDimensions.height;
+  camera.aspect = aspectRatio;
+  camera.updateProjectionMatrix();
+}
 
-  function resizeViewer() {
-    const containerDimensions = viewerContainer.getBoundingClientRect()
-    renderer.setSize(containerDimensions.width, containerDimensions.height)
-    const aspectRatio = containerDimensions.width / containerDimensions.height
-    camera.aspect = aspectRatio
-    camera.updateProjectionMatrix()
-  }
+window.addEventListener("resize", resizeViewer);
 
-  window.addEventListener("resize", resizeViewer)
+resizeViewer();
 
-  resizeViewer()
+const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshStandardMaterial();
+const cube = new THREE.Mesh(boxGeometry, material);
 
-  const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
-  const material = new THREE.MeshStandardMaterial()
-  const cube = new THREE.Mesh(boxGeometry, material)
+const directionalLight = new THREE.DirectionalLight();
+const ambientLight = new THREE.AmbientLight();
+ambientLight.intensity = 0.4;
 
-  const directionalLight = new THREE.DirectionalLight()
-  const ambientLight = new THREE.AmbientLight()
-  ambientLight.intensity = 0.4
+scene.add(directionalLight, ambientLight);
 
-  scene.add(directionalLight, ambientLight)
+const cameraControls = new OrbitControls(camera, viewerContainer);
 
-  const cameraControls = new OrbitControls(camera, viewerContainer)
-  
-  function renderScene(){
-    renderer.render(scene, camera)
-    requestAnimationFrame(renderScene)
-  }
+function renderScene() {
+  renderer.render(scene, camera);
+  requestAnimationFrame(renderScene);
+}
 
-  renderScene()
-  
-  const axes = new THREE.AxesHelper()
-  const grid = new THREE.GridHelper()
+renderScene();
 
-  grid.material.transparent = true
-  grid.material.opacity = 0.4
-  grid.material.color = new THREE.Color("#808080")
+const axes = new THREE.AxesHelper();
+const grid = new THREE.GridHelper();
 
-  scene.add(axes, grid)
+grid.material.transparent = true;
+grid.material.opacity = 0.4;
+grid.material.color = new THREE.Color("#808080");
 
-  const gui = new GUI()
-  const cubeControls = gui.addFolder("Cube")
+scene.add(axes, grid);
 
-  cubeControls.add(cube.position, "x", -10, 10, 1)
-  cubeControls.add(cube.position, "y", -10, 10, 1)
-  cubeControls.add(cube.position, "z", -10, 10, 1)
-  cubeControls.add(cube, "visible")
-  cubeControls.addColor(cube.material, "color")
-  cubeControls.add(cube.material, "wireframe")
-  cubeControls.add(cube.rotation, "x", 0, Math.PI * 2, 0.1)
-  cubeControls.add(cube.rotation, "y", 0, Math.PI * 2, 0.1)
-  cubeControls.add(cube.rotation, "z", 0, Math.PI * 2, 0.1)
-  cubeControls.add(cube.material, "metalness", 0, 1, 0.01)
+const gui = new GUI();
+const cubeControls = gui.addFolder("Cube");
 
-  const objLoader = new OBJLoader()
-  const mtlLoader = new MTLLoader()
+cubeControls.add(cube.position, "x", -10, 10, 1);
+cubeControls.add(cube.position, "y", -10, 10, 1);
+cubeControls.add(cube.position, "z", -10, 10, 1);
+cubeControls.add(cube, "visible");
+cubeControls.addColor(cube.material, "color");
+cubeControls.add(cube.material, "wireframe");
+cubeControls.add(cube.rotation, "x", 0, Math.PI * 2, 0.1);
+cubeControls.add(cube.rotation, "y", 0, Math.PI * 2, 0.1);
+cubeControls.add(cube.rotation, "z", 0, Math.PI * 2, 0.1);
+cubeControls.add(cube.material, "metalness", 0, 1, 0.01);
 
-  mtlLoader.load("../assets/Gear/Gear1.mtl", (materials) => {
-    materials.preload()
-    objLoader.setMaterials(materials)
+const objLoader = new OBJLoader();
+const mtlLoader = new MTLLoader();
 
-    objLoader.load("../assets/Gear/Gear1.obj", (mesh) => {
-      scene.add(mesh)
-    })
-  })
+mtlLoader.load("../assets/Gear/Gear1.mtl", (materials) => {
+  materials.preload();
+  objLoader.setMaterials(materials);
+
+  objLoader.load("../assets/Gear/Gear1.obj", (mesh) => {
+    scene.add(mesh);
+  });
+});
