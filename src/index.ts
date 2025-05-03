@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { OBJLoader} from "three/examples/jsm/loaders/OBJLoader.js";
+import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
 
 import { IProject, ProjectStatus, Role } from "./class/Project";
 import { ProjectsManager } from "./class/ProjectsManager";
@@ -125,7 +127,7 @@ document
   const ambientLight = new THREE.AmbientLight()
   ambientLight.intensity = 0.4
 
-  scene.add(cube, directionalLight, ambientLight)
+  scene.add(directionalLight, ambientLight)
 
   const cameraControls = new OrbitControls(camera, viewerContainer)
   
@@ -158,3 +160,15 @@ document
   cubeControls.add(cube.rotation, "y", 0, Math.PI * 2, 0.1)
   cubeControls.add(cube.rotation, "z", 0, Math.PI * 2, 0.1)
   cubeControls.add(cube.material, "metalness", 0, 1, 0.01)
+
+  const objLoader = new OBJLoader()
+  const mtlLoader = new MTLLoader()
+
+  mtlLoader.load("../assets/Gear/Gear1.mtl", (materials) => {
+    materials.preload()
+    objLoader.setMaterials(materials)
+
+    objLoader.load("../assets/Gear/Gear1.obj", (mesh) => {
+      scene.add(mesh)
+    })
+  })
