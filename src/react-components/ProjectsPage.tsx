@@ -76,20 +76,7 @@ export function ProjectsPage(props: Props) {
 
   return (
     <div id="projects-page" className="page" style={{ display: "block" }}>
-      <dialog id="new-project-modal">
-        <dialog id="error-modal" style={{ display: "none" }}>
-          <p id="error-message" style={{ padding: 10 }} />
-          <button
-            id="close-error-btn"
-            type="button"
-            style={{ backgroundColor: "#26282b", padding: 10 }}
-          >
-            Close
-          </button>
-        </dialog>
-
-        <ProjectsForm projectsManager={props.projectsManager} />
-      </dialog>
+      <ProjectsForm projectsManager={props.projectsManager} />
       <header>
         <h2>Projects</h2>
         <SearchBox onChange={(value) => onProjectSearch(value)} />

@@ -1,10 +1,11 @@
 import * as React from "react";
 import * as Router from "react-router-dom";
 import { ProjectsManager } from "../class/ProjectsManager";
+import { ProjectsForm } from "./ProjectsForm";
 
 import { ThreeViewer } from "./ThreeViewer";
 
-import { deleteDocument } from "../firebase";
+import { deleteDocument, updateDocument } from "../firebase";
 
 interface Props {
   projectsManager: ProjectsManager;
@@ -29,6 +30,29 @@ export function ProjectDetailsPage(props: Props) {
     navigateTo("/");
   };
 
+  const onEditProjectClick = () => {
+    const modal = document.getElementById("new-project-modal");
+    if (!(modal && modal instanceof HTMLDialogElement)) {
+      return;
+    }
+    modal.showModal();
+  };
+
+  props.projectsManager.updateProject = async (id) => {
+    const projectData = {
+      id: project.id,
+      name: project.name,
+      description: project.description,
+      status: project.status,
+      cost: project.cost,
+      role: project.role,
+      finishDate: project.finishDate,
+      progress: project.progress,
+    };
+
+    await updateDocument("/projects", id, projectData);
+  };
+
   return (
     <div id="project-details" className="page">
       <header>
@@ -46,6 +70,7 @@ export function ProjectDetailsPage(props: Props) {
         </button>
       </header>
       <div className="main-page-content">
+        <ProjectsForm projectsManager={props.projectsManager} />
         <div style={{ display: "flex", flexDirection: "column", rowGap: 30 }}>
           <div className="dashboard-card" style={{ padding: "30px 0" }}>
             <div
@@ -68,7 +93,10 @@ export function ProjectDetailsPage(props: Props) {
               >
                 HC
               </p>
-              <button className="btn-secondary">
+              <button
+                className="btn-secondary"
+                onClick={() => onEditProjectClick()}
+              >
                 <p style={{ width: "100%" }}>Edit</p>
               </button>
             </div>

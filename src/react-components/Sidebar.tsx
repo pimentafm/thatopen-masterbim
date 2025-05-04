@@ -11,7 +11,7 @@ export function Sidebar() {
             <span className="material-symbols-rounded"> apartment </span>Project
           </li>
         </Link>
-        <Link to="/project">
+        <Link to="/users">
           <li id="users-button">
             <span className="material-symbols-rounded"> account_circle </span>
             Users

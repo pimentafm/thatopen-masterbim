@@ -4,6 +4,7 @@ export class ProjectsManager {
   list: Project[] = [];
   onProjectCreated = (project: Project) => {};
   onProjectDeleted = (id: string) => {};
+  onProjectUpdate = (project: Project) => {};
 
   filterProjects(value: string) {
     const filteredProjects = this.list.filter((project) => {
@@ -40,6 +41,14 @@ export class ProjectsManager {
     const remaining = this.list.filter((project) => project.id !== id);
     this.list = remaining;
     this.onProjectDeleted(id);
+  }
+
+  updateProject(id: string) {
+    const project = this.getProject(id);
+    if (!project) return;
+    const remaining = this.list.filter((project) => project.id !== id);
+    this.list = remaining;
+    this.onProjectUpdate(project);
   }
 
   exportToJSON(fileName: string = "projects") {

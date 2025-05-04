@@ -10,6 +10,7 @@ import { IProject, ProjectStatus, Role } from "./class/Project";
 import { UIManager } from "./class/UIManager";
 import { ProjectDetailsPage } from "./react-components/ProjectDetailsPage";
 import { ProjectsManager } from "./class/ProjectsManager";
+import { UsersPage } from "./react-components/UsersPage";
 
 const projectsManager = new ProjectsManager();
 
@@ -27,6 +28,7 @@ appRoot.render(
         path="/project/:id"
         element={<ProjectDetailsPage projectsManager={projectsManager} />}
       />
+      <Route path="/users" element={<UsersPage />} />
     </Routes>
   </BrowserRouter>
 );
