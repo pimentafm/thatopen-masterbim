@@ -20,26 +20,40 @@ export function ProjectCard(props: Props) {
           FP
         </p>
         <div>
-          <h5>{props.project.name}</h5>
-          <p>{props.project.description}</p>
+          <bim-label
+            style={{
+              fontSize: "16px",
+              fontWeight: "bold",
+              color: "#fff",
+            }}
+          >
+            {props.project.name}
+          </bim-label>
+          <bim-label style={{ color: "#fff" }}>
+            {props.project.description}
+          </bim-label>
         </div>
       </div>
       <div className="card-content">
         <div className="card-property">
-          <p style={{ color: "#969696" }}>Status</p>
-          <p>{props.project.status}</p>
+          <bim-label style={{ color: "#969696" }}>Status</bim-label>
+          <bim-label style={{ color: "#fff" }}>
+            {props.project.status}
+          </bim-label>
         </div>
         <div className="card-property">
-          <p style={{ color: "#969696" }}>Role</p>
-          <p>{props.project.role}</p>
+          <bim-label style={{ color: "#969696" }}>Role</bim-label>
+          <bim-label style={{ color: "#fff" }}>{props.project.role}</bim-label>
         </div>
         <div className="card-property">
-          <p style={{ color: "#969696" }}>Cost</p>
-          <p>$ {props.project.cost}</p>
+          <bim-label style={{ color: "#969696" }}>Cost</bim-label>
+          <bim-label style={{ color: "#fff" }}>${props.project.cost}</bim-label>
         </div>
         <div className="card-property">
-          <p style={{ color: "#969696" }}>Estimated progress</p>
-          <p>{props.project.progress}</p>
+          <bim-label style={{ color: "#969696" }}>Estimated progress</bim-label>
+          <bim-label style={{ color: "#fff" }}>
+            {props.project.progress}%
+          </bim-label>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-
+import * as BUI from "@thatopen/ui";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { Sidebar } from "./react-components/Sidebar";
@@ -11,6 +11,19 @@ import { UIManager } from "./class/UIManager";
 import { ProjectDetailsPage } from "./react-components/ProjectDetailsPage";
 import { ProjectsManager } from "./class/ProjectsManager";
 import { UsersPage } from "./react-components/UsersPage";
+
+BUI.Manager.init();
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "bim-grid": any;
+      "bim-label": any;
+      "bim-button": any;
+      "bim-text-input": any;
+      "bim-table": any;
+    }
+  }
+}
 
 const projectsManager = new ProjectsManager();
 

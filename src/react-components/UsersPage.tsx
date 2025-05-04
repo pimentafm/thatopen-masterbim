@@ -2,14 +2,6 @@ import * as React from "react";
 import * as BUI from "@thatopen/ui";
 import { useEffect } from "react";
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      "bim-grid": any;
-    }
-  }
-}
-
 export function UsersPage() {
   const usersTable = BUI.Component.create<BUI.Table>(() => {
     const onTableCreated = (element?: Element) => {
@@ -87,6 +79,16 @@ export function UsersPage() {
     `;
   });
 
+  const footer = BUI.Component.create<BUI.Component>(() => {
+    return BUI.html`
+      <div style="display: flex; justify-content: center;">
+        <bim-label>
+        Copyright of Construction Company
+        </bim-label>
+      </div>
+    `;
+  });
+
   const gridLayout: BUI.Layouts = {
     primary: {
       template: `
@@ -97,23 +99,27 @@ export function UsersPage() {
       `,
       elements: {
         header: (() => {
-          const header = document.createElement("div");
-          header.style.backgroundColor = "#641b1b66";
-          return header;
+          const inputBox = BUI.Component.create<BUI.TextInput>(() => {
+            return BUI.html`
+              <bim-text-input
+                placeholder="🔍 Search user by name"
+                style="padding: 8px"
+              ></bim-text-input>
+            `;
+          });
+          inputBox.addEventListener("input", (e) => {
+            usersTable.queryString = inputBox.value;
+          });
+          return inputBox;
         })(),
         content,
         sidebar,
-        footer: (() => {
-          const footer = document.createElement("div");
-          footer.style.backgroundColor = "#641b1b66";
-          return footer;
-        })(),
+        footer,
       },
     },
   };
 
   useEffect(() => {
-    BUI.Manager.init();
     const grid = document.getElementById("bimGrid") as BUI.Grid;
     grid.layouts = gridLayout;
     grid.layout = "primary";

@@ -8,13 +8,19 @@ export function Sidebar() {
       <ul id="nav-buttons">
         <Link to="/">
           <li id="projects-button">
-            <span className="material-symbols-rounded"> apartment </span>Project
+            <bim-label
+              style={{ color: "#fff" }}
+              icon="material-symbols:apartment"
+            >
+              Projects
+            </bim-label>
           </li>
         </Link>
         <Link to="/users">
           <li id="users-button">
-            <span className="material-symbols-rounded"> account_circle </span>
-            Users
+            <bim-label style={{ color: "#fff" }} icon="mdi:user">
+              Users
+            </bim-label>
           </li>
         </Link>
       </ul>

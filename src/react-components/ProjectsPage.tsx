@@ -10,6 +10,7 @@ import { SearchBox } from "./SearchBox";
 import { ProjectsForm } from "./ProjectsForm";
 
 import { getCollection } from "../firebase";
+import * as BUI from "@thatopen/ui";
 
 interface Props {
   projectsManager: ProjectsManager;
@@ -70,32 +71,75 @@ export function ProjectsPage(props: Props) {
     modal.showModal();
   };
 
+  const onImportProject = () => {
+    props.projectsManager.importFromJSON();
+  };
+
+  const onExportProject = () => {
+    props.projectsManager.exportToJSON();
+  };
+
   const onProjectSearch = (value: string) => {
     setProjects(props.projectsManager.filterProjects(value));
   };
+
+  const importButton = BUI.Component.create<BUI.Button>(() => {
+    return BUI.html`
+          <bim-button
+            id="import-projects-btn"
+            icon="iconoir:import"
+            @click=${() => {
+              onImportProject;
+            }}
+          ></bim-button>     
+    `;
+  });
+
+  const exportButton = BUI.Component.create<BUI.Button>(() => {
+    return BUI.html`
+          <bim-button
+            id="import-projects-btn"
+            icon="iconoir:export"
+            @click=${() => {
+              onExportProject;
+            }}
+          ></bim-button>     
+    `;
+  });
+
+  const newProjectButton = BUI.Component.create<BUI.Button>(() => {
+    return BUI.html`
+          <bim-button
+            id="import-projects-btn"
+            icon="iconoir:import"
+            @click=${() => {
+              onNewProjectClick;
+            }}
+          ></bim-button>     
+    `;
+  });
+
+  useEffect(() => {
+    const projectControls = document.getElementById("project-page-controls");
+    projectControls?.appendChild(importButton);
+    projectControls?.appendChild(exportButton);
+    projectControls?.appendChild(newProjectButton);
+  }, []);
 
   return (
     <div id="projects-page" className="page" style={{ display: "block" }}>
       <ProjectsForm projectsManager={props.projectsManager} />
       <header>
-        <h2>Projects</h2>
+        <bim-label>Projects</bim-label>
         <SearchBox onChange={(value) => onProjectSearch(value)} />
         <div style={{ display: "flex", alignItems: "center", columnGap: 15 }}>
-          <span
-            id="import-projects-btn"
-            className="material-symbols-rounded action-icon"
-          >
-            file_upload
-          </span>
-          <span
-            id="export-projects-btn"
-            className="material-symbols-rounded action-icon"
-          >
-            file_download
-          </span>
-          <button id="new-project-btn" onClick={onNewProjectClick}>
-            <span className="material-symbols-rounded">add</span>New Project
-          </button>
+          <bim-button id="export-projects-btn" icon="ph:export"></bim-button>
+          <bim-button
+            id="new-project-btn"
+            onClick={onNewProjectClick}
+            label="New project"
+            icon="fluent:add-20-regular"
+          ></bim-button>
         </div>
       </header>
       {projects.length > 0 ? (
