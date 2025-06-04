@@ -22,6 +22,8 @@ declare global {
       "bim-button": any;
       "bim-text-input": any;
       "bim-table": any;
+      "bim-dropdown": any;
+      "bim-option": any;
     }
   }
 }

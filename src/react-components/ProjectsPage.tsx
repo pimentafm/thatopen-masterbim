@@ -120,6 +120,15 @@ export function ProjectsPage(props: Props) {
     projectControls?.appendChild(importButton);
     projectControls?.appendChild(exportButton);
     projectControls?.appendChild(newProjectButton);
+
+    const cancelButton = document.getElementById("close-modal-btn")
+    cancelButton?.addEventListener("click", () => {
+      const modal = document.getElementById("new-project-modal");
+      if (!(modal && modal instanceof HTMLDialogElement)) {
+        return;
+      }
+      modal.close();
+    });
   }, []);
 
   return (
