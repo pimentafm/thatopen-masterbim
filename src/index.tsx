@@ -13,6 +13,7 @@ import { ProjectsManager } from "./class/ProjectsManager";
 import { UsersPage } from "./react-components/UsersPage";
 
 BUI.Manager.init();
+
 declare global {
   namespace JSX {
     interface IntrinsicElements {
