@@ -90,7 +90,7 @@ export function IFCViewer() {
     const hider = components.get(OBC.Hider)
     hider.set(true)
   }
-  const onShowProperties = () => {
+  const onShowProperties = async () => {
     if(!fragmentModel) return;
     const highlighter = components.get(OBCF.Highlighter)
     const selection = highlighter.selection.select
@@ -99,7 +99,11 @@ export function IFCViewer() {
       const expressIDs = selection[fragmentID]
       for (const id of expressIDs) {
         const psets = indexer.getEntityRelations(fragmentModel, id, "ContainedInStructure")
-        console.log("Properties for ID", id, psets)
+        if (psets) {
+          for (const expressId of psets) {
+            const prop = await fragmentModel.getProperties(expressId)
+          }
+        }
       }
     }
   }
@@ -117,6 +121,30 @@ export function IFCViewer() {
         </bim-grid>
         `
     });
+
+    const elementPropertyPanel = BUI.Component.create<BUI.Panel>(() => {
+      const highlighter = components.get(OBCF.Highlighter)
+      highlighter.events.select.onHighlight.add((fragmentIdMap) => {
+        if (!floatingGrid) return
+        floatingGrid.layout = "second"
+      })
+
+      highlighter.events.select.onClear.add(() => {
+        if (!floatingGrid) return
+        floatingGrid.layout = "main"
+      })
+
+      return BUI.html`
+        <bim-panel>
+          <bim-panel-section
+            name="property"
+            label="Property Information"
+            icon="solar:document-bold"
+            fixed
+          ></bim-panel-section>
+        </bim-panel>
+      `;
+    })
 
     const toolbar = BUI.Component.create<BUI.Toolbar>(() => {
     const [loadIfcBtn] = CUI.buttons.loadIfc({ components: components })
@@ -162,6 +190,17 @@ export function IFCViewer() {
         `,
         elements: {
           toolbar
+        }
+      },
+      second: {
+        template: `
+          "empty elementPropertyPanel" 1fr
+          "toolbar toolbar" auto
+          /1fr 20rem
+        `,
+        elements: {
+          toolbar,
+          elementPropertyPanel
         }
       }
     }
