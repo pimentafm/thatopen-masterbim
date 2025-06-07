@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import * as THREE from "three";
 import * as OBC from "@thatopen/components"
 
-export function ThreeViewer() {
+export function IFCViewer() {
   const  setViewer = () => {
     const viewer = new OBC.Components();
     const worlds = viewer.get(OBC.Worlds)

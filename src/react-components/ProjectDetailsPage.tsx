@@ -3,7 +3,7 @@ import * as Router from "react-router-dom";
 import { ProjectsManager } from "../class/ProjectsManager";
 import { ProjectsForm } from "./ProjectsForm";
 
-import { ThreeViewer } from "./ThreeViewer";
+import { IFCViewer } from "./IFCViewer";
 
 import { deleteDocument, updateDocument } from "../firebase";
 import * as BUI from "@thatopen/ui";
@@ -253,7 +253,7 @@ export function ProjectDetailsPage(props: Props) {
             <bim-table id="todo-table" ref={onTableCreated}></bim-table>
           </div>
         </div>
-        <ThreeViewer />
+        <IFCViewer />
       </div>
     </div>
   );
