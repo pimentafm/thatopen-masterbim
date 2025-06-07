@@ -690,6 +690,18 @@
   resolved "https://registry.npmjs.org/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.24.0.tgz"
   integrity sha512-w1i+L7kAXZNdYl+vFvzSZy8Y1arS7vMgIy8wusXJzRrPyof5LAb02KGr1PD2EkRcl73kHulIID0M501lN+vobQ==
 
+"@thatopen/components-front@~2.2.0":
+  version "2.2.2"
+  resolved "https://registry.npmjs.org/@thatopen/components-front/-/components-front-2.2.2.tgz"
+  integrity sha512-s9wzXC0UHxsID/tSw232/Lh2RTWj2ADLqJWUg4P7KBi1ddTAApovcMtXlBfisdTZr54yffKl6UWG+0arasE93w==
+  dependencies:
+    "@thatopen/components" "~2.2.0"
+    camera-controls "2.7.3"
+    dexie "^4.0.4"
+    earcut "^2.2.4"
+    n8ao "1.5.1"
+    postprocessing "6.34.2"
+
 "@thatopen/components@~2.2.0":
   version "2.2.12"
   resolved "https://registry.npmjs.org/@thatopen/components/-/components-2.2.12.tgz"
@@ -707,6 +719,14 @@
   dependencies:
     flatbuffers "23.3.3"
     three-mesh-bvh "0.7.0"
+
+"@thatopen/ui-obc@~2.2.0":
+  version "2.2.5"
+  resolved "https://registry.npmjs.org/@thatopen/ui-obc/-/ui-obc-2.2.5.tgz"
+  integrity sha512-ZN9T2p+7kDPyglVzqUHP15zZG2qVL66RdVt3M3aXl6WAKrGxtkFmjpm2nkvVQfhVE+xi9ZtseAsRnubcizxPXw==
+  dependencies:
+    "@thatopen/ui" "~2.2.0"
+    lit "3.1.2"
 
 "@thatopen/ui@~2.2.0":
   version "2.2.2"
@@ -925,6 +945,16 @@ debug@^4.1.0, debug@^4.3.1:
   integrity sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==
   dependencies:
     ms "^2.1.3"
+
+dexie@^4.0.4:
+  version "4.0.11"
+  resolved "https://registry.npmjs.org/dexie/-/dexie-4.0.11.tgz"
+  integrity sha512-SOKO002EqlvBYYKQSew3iymBoN2EQ4BDw/3yprjh7kAfFzjBYkaMNa/pZvcA7HSWlcKSQb9XhPe3wKyQ0x4A8A==
+
+earcut@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.npmjs.org/earcut/-/earcut-2.2.4.tgz"
+  integrity sha512-/pjZsA1b4RPHbeWZQn66SWS8nZZWLQQ23oE3Eam7aroEFGEvwKAsJfZ9ytiEMycfzXWpca4FA9QIOehf7PocBQ==
 
 electron-to-chromium@^1.5.149:
   version "1.5.149"
@@ -1174,6 +1204,11 @@ ms@^2.1.3:
   resolved "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
+n8ao@1.5.1:
+  version "1.5.1"
+  resolved "https://registry.npmjs.org/n8ao/-/n8ao-1.5.1.tgz"
+  integrity sha512-Dn5o6ecmLC1xZm2mby2qdGYgwKcNsC9oKv85TQBKFbDJVzUHGXV2oys14rDl6nhwjH+zZU3YcLJkMcY7qe+jTg==
+
 nanoid@^3.3.7:
   version "3.3.7"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.3.7.tgz"
@@ -1209,6 +1244,11 @@ postcss@^8.4.43:
     nanoid "^3.3.7"
     picocolors "^1.1.0"
     source-map-js "^1.2.1"
+
+postprocessing@>=6.30.0, postprocessing@6.34.2:
+  version "6.34.2"
+  resolved "https://registry.npmjs.org/postprocessing/-/postprocessing-6.34.2.tgz"
+  integrity sha512-EQWCbeRdlfIO4WMkQCYW0rfFYaSvrU9hKxZKyhtuY0RrTM2eTNVpSyj7cUKEYG7pD1qjh8Nkj1qhxj1GdIBuXw==
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
@@ -1387,7 +1427,7 @@ three-mesh-bvh@0.7.0:
   resolved "https://registry.npmjs.org/three-mesh-bvh/-/three-mesh-bvh-0.7.0.tgz"
   integrity sha512-Hj0Z1Rp02yy5H+/xtMBu/dYAeRsSONaBaVLZoST9sMpZxycHypRiUeMHucPOLWFHnpc5hwelOnONcLpkfhDg0Q==
 
-three@^0.160.1, "three@>= 0.151.0", three@>=0.126.1, three@0.160.1:
+three@^0.160.1, "three@>= 0.138.0 < 0.162.0", "three@>= 0.151.0", three@>=0.126.1, three@>=0.137, three@0.160.1:
   version "0.160.1"
   resolved "https://registry.npmjs.org/three/-/three-0.160.1.tgz"
   integrity sha512-Bgl2wPJypDOZ1stAxwfWAcJ0WQf7QzlptsxkjYiURPz+n5k4RBDLsq+6f9Y75TYxn6aHLcWz+JNmwTOXWrQTBQ==

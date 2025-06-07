@@ -1,55 +1,109 @@
 import * as React from "react";
 import { useEffect } from "react";
-import * as THREE from "three";
 import * as OBC from "@thatopen/components"
+import * as OBCF from "@thatopen/components-front";
+import * as BUI from "@thatopen/ui";
+import * as CUI from "@thatopen/ui-obc";
 
 export function IFCViewer() {
+  const components = new OBC.Components();
+
   const  setViewer = () => {
-    const viewer = new OBC.Components();
-    const worlds = viewer.get(OBC.Worlds)
+    const worlds = components.get(OBC.Worlds)
 
     const world = worlds.create<
-    OBC.SimpleScene,
-    OBC.OrthoPerspectiveCamera,
-    OBC.SimpleRenderer
+      OBC.SimpleScene,
+      OBC.OrthoPerspectiveCamera,
+      OBCF.PostproductionRenderer
     >()
 
-    const sceneComponent = new OBC.SimpleScene(viewer);
+    const sceneComponent = new OBC.SimpleScene(components);
     world.scene = sceneComponent;
     world.scene.setup()
-    world.scene.three.background = null;
 
     const viewerContainer = document.getElementById("viewer-container") as HTMLElement
-    const rendererComponent = new OBC.SimpleRenderer(viewer, viewerContainer)
+    const rendererComponent = new OBCF.PostproductionRenderer(components, viewerContainer)
     world.renderer = rendererComponent
 
-    const cameraComponent = new OBC.OrthoPerspectiveCamera(viewer)
+    const cameraComponent = new OBC.OrthoPerspectiveCamera(components)
     world.camera = cameraComponent
 
-    viewer.init()
-
-    const material = new THREE.MeshLambertMaterial({ color: "#6528D7" })
-    const geometry = new THREE.BoxGeometry()
-    const cube = new THREE.Mesh(geometry, material)
-    world.scene.three.add(cube)
+    components.init()
 
     world.camera.controls.setLookAt(3,3,3,0,0,0)
     world.camera.updateAspect();
+
+    const ifcLoader = components.get(OBC.IfcLoader)
+    ifcLoader.setup()
+
+    const fragmentsManager = components.get(OBC.FragmentsManager)
+    fragmentsManager.onFragmentsLoaded.add((model) => {
+      world.scene.three.add(model)
+    })
+
+    const highlighter = components.get(OBCF.Highlighter)
+    highlighter.setup({ world })
+
+    viewerContainer.addEventListener("recsize", () => {
+      rendererComponent.resize()
+      cameraComponent.updateAspect();
+    })
+  }
+
+  const setupUI = () => {
+    const viewerContainer = document.getElementById("viewer-container") as HTMLElement
+    if (!viewerContainer) return;
+
+    const floatingGrid = BUI.Component.create<BUI.Grid>(() => {
+      return BUI.html `
+        <bim-grid
+          floating
+          style="padding: 20px"
+        >
+        </bim-grid>
+        `
+    });
+
+    const toolbar = BUI.Component.create<BUI.Toolbar>(() => {
+    const [loadIfcBtn] = CUI.buttons.loadIfc({ components: components })
+    return BUI.html`
+      <bim-toolbar style="justify-self: center;">
+        <bim-toolbar-section>
+          ${loadIfcBtn}
+        </bim-toolbar-section>
+      </bim-toolbar>
+    `;
+    })
+
+    floatingGrid.layouts = {
+      main: {
+        template: `
+          "empty" 1fr
+          "toolbar" auto
+          /1fr
+        `,
+        elements: {
+          toolbar
+        }
+      }
+    }
+
+    floatingGrid.layout = "main";
+    viewerContainer.appendChild(floatingGrid);
   }
 
   useEffect(() => {
     setViewer();
+    setupUI();
 
     return () => {
-
+      components.dispose();
     }
   }, []);
 
   return (
-    <div
+    <bim-viewport
       id="viewer-container"
-      className="dashboard-card"
-      style={{ minWidth: 0 }}
     />
   );
 }

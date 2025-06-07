@@ -24,6 +24,7 @@ declare global {
       "bim-table": any;
       "bim-dropdown": any;
       "bim-option": any;
+      "bim-viewport": any;
     }
   }
 }
