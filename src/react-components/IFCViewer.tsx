@@ -38,6 +38,7 @@ export function IFCViewer() {
 
     const fragmentsManager = components.get(OBC.FragmentsManager)
     fragmentsManager.onFragmentsLoaded.add((model) => {
+      console.log("Fragments loaded", model)
       world.scene.three.add(model)
     })
 
@@ -49,6 +50,38 @@ export function IFCViewer() {
       rendererComponent.resize()
       cameraComponent.updateAspect();
     })
+  }
+
+  const onToggleVisibility = () => {
+    const highlighter = components.get(OBCF.Highlighter)
+    const fragments = components.get(OBC.FragmentsManager)
+    const selection = highlighter.selection.select
+    if (Object.keys(selection).length === 0) return
+    for (const fragmentID in selection) {
+      const fragment = fragments.list.get(fragmentID)
+      const expressIDs = selection[fragmentID]
+      for (const id of expressIDs) {
+        if (!fragment) continue
+          const isHidden = fragment.hiddenItems.has(id)
+          if (isHidden) {
+            fragment.setVisibility(true, [id])
+          } else {
+            fragment.setVisibility(false, [id])
+          }
+      }
+    }
+  }
+
+  const onIsolate = () => {
+    const highlighter = components.get(OBCF.Highlighter)
+    const hider = components.get(OBC.Hider)
+    const selection = highlighter.selection.select
+    hider.isolate(selection)
+  }
+
+  const onShow = () => {
+    const hider = components.get(OBC.Hider)
+    hider.set(true)
   }
 
   const setupUI = () => {
@@ -69,8 +102,25 @@ export function IFCViewer() {
     const [loadIfcBtn] = CUI.buttons.loadIfc({ components: components })
     return BUI.html`
       <bim-toolbar style="justify-self: center;">
-        <bim-toolbar-section>
+        <bim-toolbar-section label="Import">
           ${loadIfcBtn}
+        </bim-toolbar-section>
+        <bim-toolbar-section label="Selection">
+        <bim-button 
+          label="Visibility"
+          icon="material-symbols:visibility-outline"
+          @click="${onToggleVisibility}"
+        ></bim-button>
+        <bim-button 
+          label="Isolate"
+          icon="mdi:filter"
+          @click="${onIsolate}"
+        ></bim-button>
+        <bim-button 
+          label="Show All"
+          icon="tabler:eye-filled"
+          @click="${onShow}"
+        ></bim-button>
         </bim-toolbar-section>
       </bim-toolbar>
     `;
