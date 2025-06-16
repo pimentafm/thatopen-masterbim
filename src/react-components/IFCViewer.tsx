@@ -10,6 +10,10 @@ import { float } from "three/examples/jsm/nodes/Nodes.js";
 export function IFCViewer() {
   const components = new OBC.Components();
   let fragmentModel: FragmentsGroup | undefined;
+  const [classificationsTree, updateClassificationsTree] = CUI.tables.classificationTree({
+    components,
+    classifications: []
+  })
 
   const  setViewer = () => {
     const worlds = components.get(OBC.Worlds)
@@ -48,6 +52,25 @@ export function IFCViewer() {
       const indexer = components.get(OBC.IfcRelationsIndexer)
       await indexer.process(model)
 
+      const classifier = components.get(OBC.Classifier)
+      await classifier.bySpatialStructure(model)
+      classifier.byEntity(model)
+
+      const classifications = [
+        {
+          system: "entities", label: "Entities"
+        },
+        {
+          system: "spatialStructures", label: "Spatial Containers"
+        }
+      ]
+
+      if (updateClassificationsTree) {
+        updateClassificationsTree({
+          classifications
+        })
+      }
+      
       fragmentModel = model
     })
 
@@ -164,9 +187,37 @@ export function IFCViewer() {
       `;
     })
 
+    const onClassifier = () => {
+      if (!floatingGrid) return;
+      if (floatingGrid.layout !== "classifier") {
+        floatingGrid.layout = "classifier";
+      } else {
+        floatingGrid.layout = "main";
+      }
+    }
+
+    const classifierPanel = BUI.Component.create<BUI.Panel>(() => {
+      return BUI.html`
+        <bim-panel>
+          <bim-panel-section
+            name="classifier"
+            label="Classifier"
+            icon="solar:document-bold"
+            fixed
+          >
+            <bim-label>Classifications</bim-label>
+            ${classificationsTree}
+          </bim-panel-section>
+        </bim-panel>`
+    })
+
     const onWorldsUpdate = () => {
       if (!floatingGrid) return;
-      floatingGrid.layout = "world";
+      if (floatingGrid.layout !== "world") {
+        floatingGrid.layout = "world";
+      } else {
+        floatingGrid.layout = "main";
+      }
     }
 
     const worldPanel = BUI.Component.create<BUI.Panel>(() => {
@@ -177,19 +228,19 @@ export function IFCViewer() {
         worldTable.queryString = input.value;
       }
     
-    return BUI.html`
-      <bim-panel>
-        <bim-panel-section
-          name="world"
-          label="World Information"
-          icon="solar:document-bold"
-          fixed
-        >
-          <bim-text-input @input=${search} placeholder="Search..."></bim-text-input>
-          ${worldTable}
-        </bim-panel-section>
-      </bim-panel>
-    `;
+      return BUI.html`
+        <bim-panel>
+          <bim-panel-section
+            name="world"
+            label="World Information"
+            icon="solar:document-bold"
+            fixed
+          >
+            <bim-text-input @input=${search} placeholder="Search..."></bim-text-input>
+            ${worldTable}
+          </bim-panel-section>
+        </bim-panel>
+      `;
   })
 
     const toolbar = BUI.Component.create<BUI.Toolbar>(() => {
@@ -230,6 +281,13 @@ export function IFCViewer() {
             @click="${onShowProperties}"
           ></bim-button>
         </bim-toolbar-section>
+        <bim-toolbar-section label="Groups">
+          <bim-button
+            label="Classifier"
+            icon="tabler:eye-filled"
+            @click="${onClassifier}"
+          ></bim-button>
+        </bim-toolbar-section>
       </bim-toolbar>
     `;
     })
@@ -266,9 +324,19 @@ export function IFCViewer() {
           toolbar,
           worldPanel
         }
-      }
+      },
+      classifier: {
+        template: `
+          "empty classifierPanel" 1fr
+          "toolbar toolbar" auto
+          /1fr 20rem
+        `,
+        elements: {
+          toolbar,
+          classifierPanel
+        }
+      },
     }
-
     floatingGrid.layout = "main";
     viewerContainer.appendChild(floatingGrid);
   }
