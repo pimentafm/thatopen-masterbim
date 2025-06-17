@@ -49,7 +49,26 @@ export function IFCViewer() {
       console.log("Fragments loaded", model)
       world.scene.three.add(model)
 
-      const indexer = components.get(OBC.IfcRelationsIndexer)
+      model.getLocalProperties()
+      if (model.hasProperties) {
+        await processModel(model)
+      }
+
+      fragmentModel = model
+    })
+
+    const highlighter = components.get(OBCF.Highlighter)
+    highlighter.setup({ world })
+    highlighter.zoomToSelection = true;
+
+    viewerContainer.addEventListener("recsize", () => {
+      rendererComponent.resize()
+      cameraComponent.updateAspect();
+    })
+  }
+
+  const processModel = async (model: FragmentsGroup) => {
+    const indexer = components.get(OBC.IfcRelationsIndexer)
       await indexer.process(model)
 
       const classifier = components.get(OBC.Classifier)
@@ -70,18 +89,52 @@ export function IFCViewer() {
           classifications
         })
       }
-      
-      fragmentModel = model
-    })
+  }
 
-    const highlighter = components.get(OBCF.Highlighter)
-    highlighter.setup({ world })
-    highlighter.zoomToSelection = true;
+  const onFragmentExport = () => {
+    const fragmentsManager = components.get(OBC.FragmentsManager)
 
-    viewerContainer.addEventListener("recsize", () => {
-      rendererComponent.resize()
-      cameraComponent.updateAspect();
-    })
+    if (!fragmentModel) return;
+    fragmentModel.getLocalProperties()
+
+    const fragmentsBinary = fragmentsManager.export(fragmentModel)
+    const blob = new Blob([fragmentsBinary]);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${fragmentModel.id}-${fragmentModel.name}.frag`
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  const onFragmentImport = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".frag";
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      const binary = reader.result
+      if (!(binary instanceof ArrayBuffer)) return
+      const fragmentBinary = new Uint8Array(binary);
+      const fragmentsManager = components.get(OBC.FragmentsManager)
+      fragmentsManager.load(fragmentBinary)
+    });
+    input.addEventListener("change", () => {
+      const filesList = input.files;
+      if (!filesList) {
+        return;
+      }
+      reader.readAsArrayBuffer(filesList[0]);
+    });
+    input.click();
+  }
+
+  const onPropertiesImport = () => {
+    alert("Todo: Import properties")
+  }
+
+  const onPropertiesExport = () => {
+    alert("Todo: Export properties")
   }
 
   const onToggleVisibility = () => {
@@ -257,6 +310,18 @@ export function IFCViewer() {
         <bim-toolbar-section label="Import">
           ${loadIfcBtn}
         </bim-toolbar-section>
+        <bim-toolbar-section label="Fragments">
+          <bim-button
+            label="Load"
+            icon="tabler:package-import"
+            @click=${onFragmentImport}
+          ></bim-button>
+          <bim-button
+            label="Export"
+            icon="tabler:package-export"
+            @click=${onFragmentExport}
+          ></bim-button>
+        </bim-toolbar-section>
         <bim-toolbar-section label="Selection">
         <bim-button 
           label="Visibility"
@@ -279,6 +344,16 @@ export function IFCViewer() {
             label="Show"
             icon="clarity:list-line"
             @click="${onShowProperties}"
+          ></bim-button>
+          <bim-button 
+            label="Import"
+            icon="tabler:package-import"
+            @click="${onPropertiesImport}"
+          ></bim-button>
+          <bim-button 
+            label="Export"
+            icon="tabler:package-export"
+            @click="${onPropertiesExport}"
           ></bim-button>
         </bim-toolbar-section>
         <bim-toolbar-section label="Groups">
