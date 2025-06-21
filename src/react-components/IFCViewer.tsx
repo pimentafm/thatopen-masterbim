@@ -5,10 +5,14 @@ import * as OBCF from "@thatopen/components-front";
 import * as BUI from "@thatopen/ui";
 import * as CUI from "@thatopen/ui-obc";
 import { FragmentsGroup } from "@thatopen/fragments"
-import { float } from "three/examples/jsm/nodes/Nodes.js";
 
-export function IFCViewer() {
-  const components = new OBC.Components();
+interface Props {
+  components: OBC.Components;
+}
+
+export function IFCViewer(props: Props) {
+  const components: OBC.Components = props.components;
+
   let fragmentModel: FragmentsGroup | undefined;
   const [classificationsTree, updateClassificationsTree] = CUI.tables.classificationTree({
     components,
