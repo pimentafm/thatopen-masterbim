@@ -3,6 +3,7 @@ import * as OBC from "@thatopen/components"
 export interface TodoData {
     name: string
     task: string
+    ifcGuids: string[]
 }
 
 export class TodoCreator extends OBC.Component {

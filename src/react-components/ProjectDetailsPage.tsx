@@ -6,6 +6,7 @@ import { ProjectsForm } from "./ProjectsForm";
 import { IFCViewer } from "./IFCViewer";
 
 import { deleteDocument, updateDocument } from "../firebase";
+import * as OBCF from "@thatopen/components-front";
 import * as OBC from "@thatopen/components"
 import * as BUI from "@thatopen/ui";
 
@@ -29,6 +30,7 @@ export function ProjectDetailsPage(props: Props) {
   }
 
   const components = new OBC.Components();
+  const dashboard = React.useRef<HTMLDivElement>(null);
   const todoContainer = React.useRef<HTMLDivElement>(null);
 
   const navigateTo = Router.useNavigate();
@@ -61,24 +63,44 @@ export function ProjectDetailsPage(props: Props) {
     await updateDocument("/projects", id, projectData);
   };
 
-  const  tableRef = React.useRef<BUI.Table>(null);
+  const onRowCreated = (event) => {
+    event.stopImmediatePropagation()
+    const { row } = event.detail
+    row.addEventListener("click", () => {
+      const fragments = components.get(OBC.FragmentsManager);
+      const guids = JSON.parse(row.data.Guids);
+      const fragmentIdMap = fragments.guidToFragmentIdMap(guids);
+      const highlighter = components.get(OBCF.Highlighter);
+      highlighter.highlightByID("select", fragmentIdMap)
+    })
+  }
+
+
+  const todoTable = BUI.Component.create<BUI.Table>(() => {
+    return BUI.html`
+      <bim-table @rowcreated=${onRowCreated}></bim-table>
+    `
+  })
 
   const addTodo = (data: TodoData) => {
-    if (!tableRef.current) return
+    if (!todoTable) return
     const newData = {
       data: {
         Name: data.name,
         Task: data.task,
         Date: new Date().toDateString(),
+        Guids: JSON.stringify(data.ifcGuids)
       }
     }
-    tableRef.current.data = [...tableRef.current.data, newData];
+    todoTable.data = [...todoTable.data, newData];
+    todoTable.hiddenColumns = ["Guids"];
   }
 
   const todoCreator = components.get(TodoCreator)
   todoCreator.onTodoCreated.add((data) => addTodo(data))
 
   React.useEffect(() => {
+    dashboard.current?.appendChild(todoTable);
     const todoButton = todoTool({ components })
     todoContainer.current?.appendChild(todoButton);
   }, []);
@@ -224,7 +246,7 @@ export function ProjectDetailsPage(props: Props) {
               </div>
             </div>
           </div>
-          <div className="dashboard-card" style={{ flexGrow: 1 }}>
+          <div className="dashboard-card" style={{ flexGrow: 1 }} ref={dashboard}>
             <div
               style={{
                 padding: "20px 30px",
@@ -260,7 +282,7 @@ export function ProjectDetailsPage(props: Props) {
                 </div>
               </div>
             </div>
-            <bim-table id="todo-table" ref={tableRef}></bim-table>
+
           </div>
         </div>
         <IFCViewer components={components}/>

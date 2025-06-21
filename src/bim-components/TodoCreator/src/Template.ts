@@ -1,5 +1,6 @@
 import * as OBC from "@thatopen/components"
 import * as BUI from "@thatopen/ui"
+import * as OBCF from "@thatopen/components-front"
 import { TodoCreator } from "./TodoCreator"
 
 export interface TodoUIState {
@@ -26,9 +27,13 @@ export const todoTool = (state: TodoUIState) => {
                         <bim-button
                             label="Create Todo"
                             @click=${() => {
+                                const fragments = components.get(OBC.FragmentsManager)
+                                const highlighter = components.get(OBCF.Highlighter)
+                                const guids = fragments.fragmentIdMapToGuids(highlighter.selection.select)
                                 const todoValue = { 
                                     name: nameInput.value,
-                                    task: taskInput.value
+                                    task: taskInput.value,
+                                    ifcGuids: guids
                                 }
                                 todoCreator.addTodo(todoValue)
                                 nameInput.value = ""
