@@ -5,6 +5,7 @@ import * as BUI from "@thatopen/ui";
 import * as CUI from "@thatopen/ui-obc";
 import { FragmentsGroup } from "@thatopen/fragments"
 import { TodoCreator } from "../bim-components/TodoCreator";
+import { SimpleQTO } from "../bim-components/SimpleQTO";
 
 interface Props {
   components: OBC.Components;
@@ -184,6 +185,7 @@ export function IFCViewer(props: Props) {
     const hider = components.get(OBC.Hider)
     hider.set(true)
   }
+
   const onShowProperties = async () => {
     if(!fragmentModel) return;
     const highlighter = components.get(OBCF.Highlighter)
@@ -223,17 +225,23 @@ export function IFCViewer(props: Props) {
       })
 
       const highlighter = components.get(OBCF.Highlighter)
-      highlighter.events.select.onHighlight.add((fragmentIdMap) => {
+      highlighter.events.select.onHighlight.add(async (fragmentIdMap) => {
         if (!floatingGrid) return
         floatingGrid.layout = "second"
         updatePropsTable({ fragmentIdMap })
         propsTable.expanded = false
+
+        const simpleQTO = components.get(SimpleQTO)
+        await simpleQTO.sumQuantities(fragmentIdMap)
       })
 
       highlighter.events.select.onClear.add(() => {
         updatePropsTable({ fragmentIdMap: {} })
         if (!floatingGrid) return
         floatingGrid.layout = "main"
+
+        const simpleQTO = components.get(SimpleQTO)
+        simpleQTO.resetQuantities()
       })
 
       const search = (e: Event) => {
