@@ -103,6 +103,12 @@ export function ProjectDetailsPage(props: Props) {
           <div>
             <bim-button icon="material-symbols:delete" style="background-color: red"></bim-button>
           </div>
+          <div>
+            <bim-button
+              icon="ion:navigate"
+              @click=${() => todoCreator.addTodoMarker(data)}
+            ></bim-button>
+          </div>
         `
       }
     }

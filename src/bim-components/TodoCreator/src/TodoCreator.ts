@@ -1,5 +1,6 @@
 import * as OBC from "@thatopen/components"
 import * as OBCF from "@thatopen/components-front"
+import * as BUI from "@thatopen/ui"
 import * as THREE from "three"
 import { TodoData, TodoInput } from "./base-types"
 
@@ -108,5 +109,33 @@ export class TodoCreator extends OBC.Component implements OBC.Disposable{
             todo.camera.target.z,
             true
         )
+    }
+
+    addTodoMarker(todo: TodoData) {
+        if (!this.enabled) return
+
+        if (todo.ifcGuids.length === 0) return
+
+        const fragments = this.components.get(OBC.FragmentsManager)
+        const fragmentIdMap = fragments.guidToFragmentIdMap(todo.ifcGuids)
+        const boundingBoxer = this.components.get(OBC.BoundingBoxer)
+        boundingBoxer.addFragmentIdMap(fragmentIdMap)
+        const { center } = boundingBoxer.getSphere()
+
+        const label = BUI.Component.create<BUI.Label>(() => {
+            return BUI.html`
+                <bim-label
+                    @mouseover=${() => {
+                        const highlighter = this.components.get(OBCF.Highlighter)
+                        highlighter.highlightByID("hover", fragmentIdMap, true, false)
+                    }}
+                    style="background-color: var(--bim-ui_bg-contrast-100); cursor: pointer; padding: 0.25rem 0.5rem; border-radius: 999px; pointer-events: all;"
+                    icon="fa:map-marker"
+                ></bim-label>
+            `
+        })
+
+        const marker = new OBCF.Mark(this._world, label)
+        marker.three.position.copy(center)
     }
 }
