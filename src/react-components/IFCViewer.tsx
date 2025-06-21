@@ -302,11 +302,14 @@ export function IFCViewer(props: Props) {
 
     const toolbar = BUI.Component.create<BUI.Toolbar>(() => {
     const [loadIfcBtn] = CUI.buttons.loadIfc({ components: components })
+    loadIfcBtn.tooltipTitle = "Load IFC"
+    loadIfcBtn.label = ""
+    
     return BUI.html`
       <bim-toolbar style="justify-self: center;">
         <bim-toolbar-section label="App">
           <bim-button
-            label="World"
+            tooltip-title="World"
             icon="tabler:brush"
             @click=${onWorldsUpdate}
           ></bim-button>
@@ -316,53 +319,53 @@ export function IFCViewer(props: Props) {
         </bim-toolbar-section>
         <bim-toolbar-section label="Fragments">
           <bim-button
-            label="Load"
+            tooltip-title="Load"
             icon="tabler:package-import"
             @click=${onFragmentImport}
           ></bim-button>
           <bim-button
-            label="Export"
+            tooltip-title="Export"
             icon="tabler:package-export"
             @click=${onFragmentExport}
           ></bim-button>
         </bim-toolbar-section>
         <bim-toolbar-section label="Selection">
         <bim-button 
-          label="Visibility"
+          tooltip-title="Visibility"
           icon="material-symbols:visibility-outline"
           @click="${onToggleVisibility}"
         ></bim-button>
         <bim-button 
-          label="Isolate"
+          tooltip-title="Isolate"
           icon="mdi:filter"
           @click="${onIsolate}"
         ></bim-button>
         <bim-button 
-          label="Show All"
+          tooltip-title="Show All"
           icon="tabler:eye-filled"
           @click="${onShow}"
         ></bim-button>
         </bim-toolbar-section>
         <bim-toolbar-section label="Property">
           <bim-button 
-            label="Show"
+            tooltip-title="Show"
             icon="clarity:list-line"
             @click="${onShowProperties}"
           ></bim-button>
           <bim-button 
-            label="Import"
+            tooltip-title="Import"
             icon="tabler:package-import"
             @click="${onPropertiesImport}"
           ></bim-button>
           <bim-button 
-            label="Export"
+            tooltip-title="Export"
             icon="tabler:package-export"
             @click="${onPropertiesExport}"
           ></bim-button>
         </bim-toolbar-section>
         <bim-toolbar-section label="Groups">
           <bim-button
-            label="Classifier"
+            tooltip-title="Classifier"
             icon="tabler:eye-filled"
             @click="${onClassifier}"
           ></bim-button>
