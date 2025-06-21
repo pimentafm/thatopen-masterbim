@@ -6,7 +6,6 @@ import { ProjectsForm } from "./ProjectsForm";
 import { IFCViewer } from "./IFCViewer";
 
 import { deleteDocument, updateDocument } from "../firebase";
-import * as OBCF from "@thatopen/components-front";
 import * as OBC from "@thatopen/components"
 import * as BUI from "@thatopen/ui";
 
