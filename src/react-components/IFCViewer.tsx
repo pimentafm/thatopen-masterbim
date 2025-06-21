@@ -304,7 +304,7 @@ export function IFCViewer(props: Props) {
     const [loadIfcBtn] = CUI.buttons.loadIfc({ components: components })
     loadIfcBtn.tooltipTitle = "Load IFC"
     loadIfcBtn.label = ""
-    
+
     return BUI.html`
       <bim-toolbar style="justify-self: center;">
         <bim-toolbar-section label="App">
@@ -424,8 +424,10 @@ export function IFCViewer(props: Props) {
   }
 
   useEffect(() => {
-    setViewer();
-    setupUI();
+    setTimeout(() => {
+      setViewer();
+      setupUI();
+    })
 
     return () => {
       if (components) {
