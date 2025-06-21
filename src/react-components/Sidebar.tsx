@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
+import * as React from 'react'
+import { Link } from 'react-router-dom'
 
 export function Sidebar() {
   return (
@@ -9,7 +9,7 @@ export function Sidebar() {
         <Link to="/">
           <li id="projects-button">
             <bim-label
-              style={{ color: "#fff" }}
+              style={{ color: '#fff' }}
               icon="material-symbols:apartment"
             >
               Projects
@@ -18,12 +18,12 @@ export function Sidebar() {
         </Link>
         <Link to="/users">
           <li id="users-button">
-            <bim-label style={{ color: "#fff" }} icon="mdi:user">
+            <bim-label style={{ color: '#fff' }} icon="mdi:user">
               Users
             </bim-label>
           </li>
         </Link>
       </ul>
     </aside>
-  );
+  )
 }

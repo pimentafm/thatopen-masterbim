@@ -1,26 +1,27 @@
-import { useEffect } from "react";
-import * as OBC from "@thatopen/components"
-import * as OBCF from "@thatopen/components-front";
-import * as BUI from "@thatopen/ui";
-import * as CUI from "@thatopen/ui-obc";
-import { FragmentsGroup } from "@thatopen/fragments"
-import { TodoCreator } from "../bim-components/TodoCreator";
-import { SimpleQTO } from "../bim-components/SimpleQTO";
+import { useEffect } from 'react'
+import * as OBC from '@thatopen/components'
+import * as OBCF from '@thatopen/components-front'
+import * as BUI from '@thatopen/ui'
+import * as CUI from '@thatopen/ui-obc'
+import { FragmentsGroup } from '@thatopen/fragments'
+import { TodoCreator } from '../bim-components/TodoCreator'
+import { SimpleQTO } from '../bim-components/SimpleQTO'
 
 interface Props {
-  components: OBC.Components;
+  components: OBC.Components
 }
 
 export function IFCViewer(props: Props) {
-  const components: OBC.Components = props.components;
+  const components: OBC.Components = props.components
 
-  let fragmentModel: FragmentsGroup | undefined;
-  const [classificationsTree, updateClassificationsTree] = CUI.tables.classificationTree({
-    components,
-    classifications: []
-  })
+  let fragmentModel: FragmentsGroup | undefined
+  const [classificationsTree, updateClassificationsTree] =
+    CUI.tables.classificationTree({
+      components,
+      classifications: [],
+    })
 
-  const  setViewer = () => {
+  const setViewer = () => {
     const worlds = components.get(OBC.Worlds)
 
     const world = worlds.create<
@@ -29,12 +30,17 @@ export function IFCViewer(props: Props) {
       OBCF.PostproductionRenderer
     >()
 
-    const sceneComponent = new OBC.SimpleScene(components);
-    world.scene = sceneComponent;
+    const sceneComponent = new OBC.SimpleScene(components)
+    world.scene = sceneComponent
     world.scene.setup()
 
-    const viewerContainer = document.getElementById("viewer-container") as HTMLElement
-    const rendererComponent = new OBCF.PostproductionRenderer(components, viewerContainer)
+    const viewerContainer = document.getElementById(
+      'viewer-container'
+    ) as HTMLElement
+    const rendererComponent = new OBCF.PostproductionRenderer(
+      components,
+      viewerContainer
+    )
     world.renderer = rendererComponent
 
     const cameraComponent = new OBC.OrthoPerspectiveCamera(components)
@@ -42,16 +48,16 @@ export function IFCViewer(props: Props) {
 
     components.init()
 
-    world.renderer.postproduction.enabled = true;
-    world.camera.controls.setLookAt(3,3,3,0,0,0)
-    world.camera.updateAspect();
+    world.renderer.postproduction.enabled = true
+    world.camera.controls.setLookAt(3, 3, 3, 0, 0, 0)
+    world.camera.updateAspect()
 
     const ifcLoader = components.get(OBC.IfcLoader)
     ifcLoader.setup()
 
     const fragmentsManager = components.get(OBC.FragmentsManager)
-    fragmentsManager.onFragmentsLoaded.add( async (model) => {
-      console.log("Fragments loaded", model)
+    fragmentsManager.onFragmentsLoaded.add(async (model) => {
+      console.log('Fragments loaded', model)
       world.scene.three.add(model)
 
       model.getLocalProperties()
@@ -64,11 +70,11 @@ export function IFCViewer(props: Props) {
 
     const highlighter = components.get(OBCF.Highlighter)
     highlighter.setup({ world })
-    highlighter.zoomToSelection = true;
+    highlighter.zoomToSelection = true
 
-    viewerContainer.addEventListener("recsize", () => {
+    viewerContainer.addEventListener('recsize', () => {
       rendererComponent.resize()
-      cameraComponent.updateAspect();
+      cameraComponent.updateAspect()
     })
 
     const todoCreator = components.get(TodoCreator)
@@ -78,80 +84,82 @@ export function IFCViewer(props: Props) {
 
   const processModel = async (model: FragmentsGroup) => {
     const indexer = components.get(OBC.IfcRelationsIndexer)
-      await indexer.process(model)
+    await indexer.process(model)
 
-      const classifier = components.get(OBC.Classifier)
-      await classifier.bySpatialStructure(model)
-      classifier.byEntity(model)
+    const classifier = components.get(OBC.Classifier)
+    await classifier.bySpatialStructure(model)
+    classifier.byEntity(model)
 
-      const classifications = [
-        {
-          system: "entities", label: "Entities"
-        },
-        {
-          system: "spatialStructures", label: "Spatial Containers"
-        }
-      ]
+    const classifications = [
+      {
+        system: 'entities',
+        label: 'Entities',
+      },
+      {
+        system: 'spatialStructures',
+        label: 'Spatial Containers',
+      },
+    ]
 
-      if (updateClassificationsTree) {
-        updateClassificationsTree({
-          classifications
-        })
-      }
+    if (updateClassificationsTree) {
+      updateClassificationsTree({
+        classifications,
+      })
+    }
   }
 
   const onFragmentExport = () => {
     const fragmentsManager = components.get(OBC.FragmentsManager)
 
-    if (!fragmentModel) return;
+    if (!fragmentModel) return
     fragmentModel.getLocalProperties()
 
     const fragmentsBinary = fragmentsManager.export(fragmentModel)
-    const blob = new Blob([fragmentsBinary]);
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
+    const blob = new Blob([fragmentsBinary])
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
     a.download = `${fragmentModel.id}-${fragmentModel.name}.frag`
-    a.click();
-    URL.revokeObjectURL(url);
+    a.click()
+    URL.revokeObjectURL(url)
   }
 
   const onFragmentImport = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".frag";
-    const reader = new FileReader();
-    reader.addEventListener("load", () => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = '.frag'
+    const reader = new FileReader()
+    reader.addEventListener('load', () => {
       const binary = reader.result
       if (!(binary instanceof ArrayBuffer)) return
-      const fragmentBinary = new Uint8Array(binary);
+      const fragmentBinary = new Uint8Array(binary)
       const fragmentsManager = components.get(OBC.FragmentsManager)
       fragmentsManager.load(fragmentBinary)
-    });
-    input.addEventListener("change", () => {
-      const filesList = input.files;
+    })
+    input.addEventListener('change', () => {
+      const filesList = input.files
       if (!filesList) {
-        return;
+        return
       }
-      reader.readAsArrayBuffer(filesList[0]);
-    });
-    input.click();
+      reader.readAsArrayBuffer(filesList[0])
+    })
+    input.click()
   }
 
   const onFragmentDispose = () => {
     const fragmentsManager = components.get(OBC.FragmentsManager)
     for (const [, group] of fragmentsManager.groups) {
-      fragmentsManager.disposeGroup(group);
+      fragmentsManager.disposeGroup(group)
     }
     fragmentModel = undefined
   }
 
   const onPropertiesImport = () => {
-    alert("Todo: Import properties")
+    alert('Todo: Import properties')
   }
 
   const onPropertiesExport = () => {
-    alert("Todo: Export properties")
+    alert('Todo: Export properties')
   }
 
   const onToggleVisibility = () => {
@@ -164,12 +172,12 @@ export function IFCViewer(props: Props) {
       const expressIDs = selection[fragmentID]
       for (const id of expressIDs) {
         if (!fragment) continue
-          const isHidden = fragment.hiddenItems.has(id)
-          if (isHidden) {
-            fragment.setVisibility(true, [id])
-          } else {
-            fragment.setVisibility(false, [id])
-          }
+        const isHidden = fragment.hiddenItems.has(id)
+        if (isHidden) {
+          fragment.setVisibility(true, [id])
+        } else {
+          fragment.setVisibility(false, [id])
+        }
       }
     }
   }
@@ -187,14 +195,18 @@ export function IFCViewer(props: Props) {
   }
 
   const onShowProperties = async () => {
-    if(!fragmentModel) return;
+    if (!fragmentModel) return
     const highlighter = components.get(OBCF.Highlighter)
     const selection = highlighter.selection.select
     const indexer = components.get(OBC.IfcRelationsIndexer)
     for (const fragmentID in selection) {
       const expressIDs = selection[fragmentID]
       for (const id of expressIDs) {
-        const psets = indexer.getEntityRelations(fragmentModel, id, "ContainedInStructure")
+        const psets = indexer.getEntityRelations(
+          fragmentModel,
+          id,
+          'ContainedInStructure'
+        )
         if (psets) {
           for (const expressId of psets) {
             const prop = await fragmentModel.getProperties(expressId)
@@ -205,29 +217,31 @@ export function IFCViewer(props: Props) {
   }
 
   const setupUI = () => {
-    const viewerContainer = document.getElementById("viewer-container") as HTMLElement
-    if (!viewerContainer) return;
+    const viewerContainer = document.getElementById(
+      'viewer-container'
+    ) as HTMLElement
+    if (!viewerContainer) return
 
     const floatingGrid = BUI.Component.create<BUI.Grid>(() => {
-      return BUI.html `
+      return BUI.html`
         <bim-grid
           floating
           style="padding: 20px"
         >
         </bim-grid>
         `
-    });
+    })
 
     const elementPropertyPanel = BUI.Component.create<BUI.Panel>(() => {
       const [propsTable, updatePropsTable] = CUI.tables.elementProperties({
         components,
-        fragmentIdMap: {}
+        fragmentIdMap: {},
       })
 
       const highlighter = components.get(OBCF.Highlighter)
       highlighter.events.select.onHighlight.add(async (fragmentIdMap) => {
         if (!floatingGrid) return
-        floatingGrid.layout = "second"
+        floatingGrid.layout = 'second'
         updatePropsTable({ fragmentIdMap })
         propsTable.expanded = false
 
@@ -238,7 +252,7 @@ export function IFCViewer(props: Props) {
       highlighter.events.select.onClear.add(() => {
         updatePropsTable({ fragmentIdMap: {} })
         if (!floatingGrid) return
-        floatingGrid.layout = "main"
+        floatingGrid.layout = 'main'
 
         const simpleQTO = components.get(SimpleQTO)
         simpleQTO.resetQuantities()
@@ -246,7 +260,7 @@ export function IFCViewer(props: Props) {
 
       const search = (e: Event) => {
         const input = e.target as BUI.TextInput
-        propsTable.queryString = input.value;
+        propsTable.queryString = input.value
       }
 
       return BUI.html`
@@ -261,15 +275,15 @@ export function IFCViewer(props: Props) {
             ${propsTable}
           </bim-panel-section>
         </bim-panel>
-      `;
+      `
     })
 
     const onClassifier = () => {
-      if (!floatingGrid) return;
-      if (floatingGrid.layout !== "classifier") {
-        floatingGrid.layout = "classifier";
+      if (!floatingGrid) return
+      if (floatingGrid.layout !== 'classifier') {
+        floatingGrid.layout = 'classifier'
       } else {
-        floatingGrid.layout = "main";
+        floatingGrid.layout = 'main'
       }
     }
 
@@ -289,11 +303,11 @@ export function IFCViewer(props: Props) {
     })
 
     const onWorldsUpdate = () => {
-      if (!floatingGrid) return;
-      if (floatingGrid.layout !== "world") {
-        floatingGrid.layout = "world";
+      if (!floatingGrid) return
+      if (floatingGrid.layout !== 'world') {
+        floatingGrid.layout = 'world'
       } else {
-        floatingGrid.layout = "main";
+        floatingGrid.layout = 'main'
       }
     }
 
@@ -302,9 +316,9 @@ export function IFCViewer(props: Props) {
 
       const search = (e: Event) => {
         const input = e.target as BUI.TextInput
-        worldTable.queryString = input.value;
+        worldTable.queryString = input.value
       }
-    
+
       return BUI.html`
         <bim-panel>
           <bim-panel-section
@@ -317,15 +331,15 @@ export function IFCViewer(props: Props) {
             ${worldTable}
           </bim-panel-section>
         </bim-panel>
-      `;
-  })
+      `
+    })
 
     const toolbar = BUI.Component.create<BUI.Toolbar>(() => {
-    const [loadIfcBtn] = CUI.buttons.loadIfc({ components: components })
-    loadIfcBtn.tooltipTitle = "Load IFC"
-    loadIfcBtn.label = ""
+      const [loadIfcBtn] = CUI.buttons.loadIfc({ components: components })
+      loadIfcBtn.tooltipTitle = 'Load IFC'
+      loadIfcBtn.label = ''
 
-    return BUI.html`
+      return BUI.html`
       <bim-toolbar style="justify-self: center;">
         <bim-toolbar-section label="App">
           <bim-button
@@ -396,7 +410,7 @@ export function IFCViewer(props: Props) {
           ></bim-button>
         </bim-toolbar-section>
       </bim-toolbar>
-    `;
+    `
     })
 
     floatingGrid.layouts = {
@@ -407,8 +421,8 @@ export function IFCViewer(props: Props) {
           /1fr
         `,
         elements: {
-          toolbar
-        }
+          toolbar,
+        },
       },
       second: {
         template: `
@@ -418,8 +432,8 @@ export function IFCViewer(props: Props) {
         `,
         elements: {
           toolbar,
-          elementPropertyPanel
-        }
+          elementPropertyPanel,
+        },
       },
       world: {
         template: `
@@ -429,8 +443,8 @@ export function IFCViewer(props: Props) {
         `,
         elements: {
           toolbar,
-          worldPanel
-        }
+          worldPanel,
+        },
       },
       classifier: {
         template: `
@@ -440,36 +454,31 @@ export function IFCViewer(props: Props) {
         `,
         elements: {
           toolbar,
-          classifierPanel
-        }
+          classifierPanel,
+        },
       },
     }
-    floatingGrid.layout = "main";
-    viewerContainer.appendChild(floatingGrid);
+    floatingGrid.layout = 'main'
+    viewerContainer.appendChild(floatingGrid)
   }
 
   useEffect(() => {
     setTimeout(() => {
-      setViewer();
-      setupUI();
+      setViewer()
+      setupUI()
     })
 
     return () => {
       if (components) {
-        components.dispose();
+        components.dispose()
       }
 
       if (fragmentModel) {
-        fragmentModel.dispose();
-        fragmentModel = undefined;
+        fragmentModel.dispose()
+        fragmentModel = undefined
       }
-      
     }
-  }, []);
+  }, [])
 
-  return (
-    <bim-viewport
-      id="viewer-container"
-    />
-  );
+  return <bim-viewport id="viewer-container" />
 }

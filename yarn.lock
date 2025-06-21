@@ -1250,6 +1250,11 @@ postprocessing@>=6.30.0, postprocessing@6.34.2:
   resolved "https://registry.npmjs.org/postprocessing/-/postprocessing-6.34.2.tgz"
   integrity sha512-EQWCbeRdlfIO4WMkQCYW0rfFYaSvrU9hKxZKyhtuY0RrTM2eTNVpSyj7cUKEYG7pD1qjh8Nkj1qhxj1GdIBuXw==
 
+prettier@^3.5.3:
+  version "3.5.3"
+  resolved "https://registry.npmjs.org/prettier/-/prettier-3.5.3.tgz"
+  integrity sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==
+
 process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz"

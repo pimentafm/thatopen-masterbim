@@ -1,42 +1,42 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom/client";
-import * as BUI from "@thatopen/ui";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import * as React from 'react'
+import * as ReactDOM from 'react-dom/client'
+import * as BUI from '@thatopen/ui'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import { Sidebar } from "./react-components/Sidebar";
-import { ProjectsPage } from "./react-components/ProjectsPage";
+import { Sidebar } from './react-components/Sidebar'
+import { ProjectsPage } from './react-components/ProjectsPage'
 
-import { IProject, ProjectStatus, Role } from "./class/Project";
-import { UIManager } from "./class/UIManager";
-import { ProjectDetailsPage } from "./react-components/ProjectDetailsPage";
-import { ProjectsManager } from "./class/ProjectsManager";
-import { UsersPage } from "./react-components/UsersPage";
+import { IProject, ProjectStatus, Role } from './class/Project'
+import { UIManager } from './class/UIManager'
+import { ProjectDetailsPage } from './react-components/ProjectDetailsPage'
+import { ProjectsManager } from './class/ProjectsManager'
+import { UsersPage } from './react-components/UsersPage'
 
-BUI.Manager.init();
+BUI.Manager.init()
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      ["bim-grid"]: any;
-      ["bim-label"]: any;
-      ["bim-button"]: any;
-      ["bim-text-input"]: any;
-      ["bim-table"]: any;
-      ["bim-dropdown"]: any;
-      ["bim-option"]: any;
-      ["bim-viewport"]: any;
-      ["bim-panel"]: any;
-      ["bim-panel-section"]: any;
-      ["bim-toolbar"]: any;
-      ["bim-toolbar-section"]: any;
+      ['bim-grid']: any
+      ['bim-label']: any
+      ['bim-button']: any
+      ['bim-text-input']: any
+      ['bim-table']: any
+      ['bim-dropdown']: any
+      ['bim-option']: any
+      ['bim-viewport']: any
+      ['bim-panel']: any
+      ['bim-panel-section']: any
+      ['bim-toolbar']: any
+      ['bim-toolbar-section']: any
     }
   }
 }
 
-const projectsManager = new ProjectsManager();
+const projectsManager = new ProjectsManager()
 
-const rootElement = document.getElementById("app") as HTMLElement;
-const appRoot = ReactDOM.createRoot(rootElement);
+const rootElement = document.getElementById('app') as HTMLElement
+const appRoot = ReactDOM.createRoot(rootElement)
 appRoot.render(
   <BrowserRouter>
     <Sidebar />
@@ -52,90 +52,90 @@ appRoot.render(
       <Route path="/users" element={<UsersPage />} />
     </Routes>
   </BrowserRouter>
-);
+)
 
-const uiManager = new UIManager();
+const uiManager = new UIManager()
 
-const projectsButton = document.getElementById("projects-button");
-const projectsPage = document.getElementById("projects-page");
+const projectsButton = document.getElementById('projects-button')
+const projectsPage = document.getElementById('projects-page')
 if (projectsButton && projectsPage instanceof HTMLElement) {
-  uiManager.setPageButton(projectsButton, projectsPage);
+  uiManager.setPageButton(projectsButton, projectsPage)
 }
 
-const userButton = document.getElementById("users-button");
-const usersPage = document.getElementById("users-page");
+const userButton = document.getElementById('users-button')
+const usersPage = document.getElementById('users-page')
 if (userButton && usersPage instanceof HTMLElement) {
-  uiManager.setPageButton(userButton, usersPage);
+  uiManager.setPageButton(userButton, usersPage)
 }
 
-uiManager.setModalButton("new-project-btn", "new-project-modal");
+uiManager.setModalButton('new-project-btn', 'new-project-modal')
 uiManager.setModalButton(
-  "close-modal-btn",
-  "new-project-modal",
-  "new-project-form"
-);
+  'close-modal-btn',
+  'new-project-modal',
+  'new-project-form'
+)
 
-const projectsListUI = document.getElementById("projects-list") as HTMLElement;
+const projectsListUI = document.getElementById('projects-list') as HTMLElement
 //const projectsManager = new ProjectsManager(projectsListUI);
 
-const projectForm = document.getElementById("new-project-form");
+const projectForm = document.getElementById('new-project-form')
 if (projectForm && projectForm instanceof HTMLFormElement) {
-  projectForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const formData = new FormData(projectForm);
+  projectForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const formData = new FormData(projectForm)
 
     const projectData: IProject = {
-      name: formData.get("name") as string,
-      description: formData.get("description") as string,
-      status: formData.get("status") as ProjectStatus,
-      role: formData.get("role") as Role,
-      finishDate: new Date(formData.get("finishDate") as string),
-    };
+      name: formData.get('name') as string,
+      description: formData.get('description') as string,
+      status: formData.get('status') as ProjectStatus,
+      role: formData.get('role') as Role,
+      finishDate: new Date(formData.get('finishDate') as string),
+    }
 
     try {
       //const project = projectsManager.newProject(projectData);
-      projectForm.reset();
-      uiManager.toggleModal("new-project-modal");
+      projectForm.reset()
+      uiManager.toggleModal('new-project-modal')
     } catch (err) {
-      uiManager.showErrorDialog((err as Error).message);
+      uiManager.showErrorDialog((err as Error).message)
     }
-  });
+  })
 } else {
-  console.warn("No new project form found");
+  console.warn('No new project form found')
 }
 
-const closeFormBtn = document.getElementById("close-modal-btn");
+const closeFormBtn = document.getElementById('close-modal-btn')
 if (closeFormBtn) {
-  closeFormBtn.addEventListener("click", () => {
-    uiManager.toggleModal("new-project-modal");
-  });
+  closeFormBtn.addEventListener('click', () => {
+    uiManager.toggleModal('new-project-modal')
+  })
 } else {
-  console.warn("No close project form button found");
+  console.warn('No close project form button found')
 }
 
-const closeAlertDialog = document.getElementById("alert-modal");
+const closeAlertDialog = document.getElementById('alert-modal')
 if (closeAlertDialog) {
-  closeAlertDialog.addEventListener("click", () => {
-    uiManager.toggleModal("new-project-modal");
-  });
+  closeAlertDialog.addEventListener('click', () => {
+    uiManager.toggleModal('new-project-modal')
+  })
 } else {
-  console.warn("No close project form button found");
+  console.warn('No close project form button found')
 }
 
-const exportProjectsBtn = document.getElementById("export-projects-btn");
+const exportProjectsBtn = document.getElementById('export-projects-btn')
 if (exportProjectsBtn) {
-  exportProjectsBtn.addEventListener("click", () => {
+  exportProjectsBtn.addEventListener('click', () => {
     //projectsManager.exportToJSON();
-  });
+  })
 }
 
-const importProjectsBtn = document.getElementById("import-projects-btn");
+const importProjectsBtn = document.getElementById('import-projects-btn')
 if (importProjectsBtn) {
-  importProjectsBtn.addEventListener("click", () => {
+  importProjectsBtn.addEventListener('click', () => {
     //projectsManager.importFromJSON();
-  });
+  })
 }
 
 document
-  .getElementById("close-error-btn")
-  ?.addEventListener("click", uiManager.closeErrorDialog);
+  .getElementById('close-error-btn')
+  ?.addEventListener('click', uiManager.closeErrorDialog)
