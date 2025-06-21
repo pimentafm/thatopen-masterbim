@@ -155,11 +155,65 @@ export function IFCViewer(props: Props) {
   }
 
   const onPropertiesImport = () => {
-    alert('Todo: Import properties')
+    if (!fragmentModel) {
+      console.error('fragmentModel is not defined.')
+      return
+    }
+
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = 'application/json'
+    const reader = new FileReader()
+
+    reader.addEventListener('load', async () => {
+      if (!fragmentModel) {
+        console.error('fragmentModel is not defined.')
+        return
+      }
+
+      const json = reader.result
+      if (typeof json !== 'string') {
+        console.error('File read result is not a string.')
+        return
+      }
+
+      try {
+        const properties = JSON.parse(json)
+        fragmentModel.setLocalProperties(properties)
+        await processModel(fragmentModel)
+      } catch (error) {
+        console.error('Failed to parse JSON:', error)
+      }
+
+      reader.addEventListener('error', () => {
+        console.error('Error reading file:', reader.error)
+      })
+    })
+
+    input.addEventListener('change', () => {
+      const filesList = input.files
+      if (!filesList || filesList.length === 0) {
+        console.error('No file selected.')
+        return
+      }
+
+      reader.readAsText(filesList[0])
+    })
+
+    input.click()
   }
 
   const onPropertiesExport = () => {
-    alert('Todo: Export properties')
+    if (!fragmentModel) return
+    const properties = fragmentModel.getLocalProperties()
+    const json = JSON.stringify(properties, null, 2)
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${fragmentModel.id}-${fragmentModel.name}-properties.json`
+    a.click()
+    URL.revokeObjectURL(url)
   }
 
   const onToggleVisibility = () => {
