@@ -349,3 +349,7 @@ select:focus {
   align-items: start;
   column-gap: 10px;
 }
+
+bim-option {
+  padding: 4px;
+}

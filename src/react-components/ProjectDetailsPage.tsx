@@ -69,6 +69,7 @@ export function ProjectDetailsPage(props: Props) {
       todoCreator.highlightTodo({
         name: row.data.Name,
         task: row.data.Task,
+        priority: row.data.Priority,
         ifcGuids: JSON.parse(row.data.Guids),
         camera: JSON.parse(row.data.Camera)
       })
@@ -88,6 +89,7 @@ export function ProjectDetailsPage(props: Props) {
       data: {
         Name: data.name,
         Task: data.task,
+        Priority: data.priority,
         Date: new Date().toDateString(),
         Guids: JSON.stringify(data.ifcGuids),
         Camera: data.camera ? JSON.stringify(data.camera) : ""
@@ -102,8 +104,9 @@ export function ProjectDetailsPage(props: Props) {
 
   React.useEffect(() => {
     dashboard.current?.appendChild(todoTable);
-    const todoButton = todoTool({ components })
+    const [ todoButton, todoPriorityButton ] = todoTool({ components })
     todoContainer.current?.appendChild(todoButton);
+    todoContainer.current?.appendChild(todoPriorityButton);
   }, []);
 
 
