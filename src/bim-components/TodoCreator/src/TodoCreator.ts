@@ -3,10 +3,11 @@ import * as OBCF from "@thatopen/components-front"
 import * as THREE from "three"
 import { TodoData, TodoInput } from "./base-types"
 
-export class TodoCreator extends OBC.Component {
+export class TodoCreator extends OBC.Component implements OBC.Disposable{
     static uuid = "43eda07b-486c-44a3-b10d-80d144de4155"
     enabled = true
     onTodoCreated = new OBC.Event<TodoData>()
+    onDisposed: OBC.Event<any> = new OBC.Event()
 
     private _world: OBC.World
     private _list: TodoData[] = []
@@ -14,6 +15,12 @@ export class TodoCreator extends OBC.Component {
     constructor(components: OBC.Components) {
         super(components)
         this.components.add(TodoCreator.uuid, this)
+    }
+
+    async dispose() {
+       this.enabled = false
+       this._list = []
+       this.onDisposed.trigger()
     }
 
     setup() {
@@ -28,6 +35,8 @@ export class TodoCreator extends OBC.Component {
     }
 
     set enablePriorityHighlight(value: boolean) {
+        if(!this.enabled) return
+
         const fragments = this.components.get(OBC.FragmentsManager)
         const highlighter = this.components.get(OBCF.Highlighter)
     
@@ -43,6 +52,8 @@ export class TodoCreator extends OBC.Component {
     }
 
     addTodo(data: TodoInput) {
+        if(!this.enabled) return
+
         const fragments = this.components.get(OBC.FragmentsManager)
         const highlighter = this.components.get(OBCF.Highlighter)
         const guids = fragments.fragmentIdMapToGuids(highlighter.selection.select)
@@ -72,6 +83,8 @@ export class TodoCreator extends OBC.Component {
     }
 
     async highlightTodo(todo: TodoData) {
+        if(!this.enabled) return
+
         const fragments = this.components.get(OBC.FragmentsManager);
         const fragmentIdMap = fragments.guidToFragmentIdMap(todo.ifcGuids);
         const highlighter = this.components.get(OBCF.Highlighter);

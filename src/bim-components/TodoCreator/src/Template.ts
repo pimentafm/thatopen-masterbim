@@ -83,5 +83,11 @@ export const todoTool = (state: TodoUIState) => {
             `
     })
 
+    todoCreator.onDisposed.add(() => {
+        todoButton.remove()
+        todoPriorityButton.remove()
+        todoModal.remove()
+    })
+
     return [todoButton, todoPriorityButton]
 }
