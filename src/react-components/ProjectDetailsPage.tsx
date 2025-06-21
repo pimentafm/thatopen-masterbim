@@ -67,11 +67,12 @@ export function ProjectDetailsPage(props: Props) {
     event.stopImmediatePropagation()
     const { row } = event.detail
     row.addEventListener("click", () => {
-      const fragments = components.get(OBC.FragmentsManager);
-      const guids = JSON.parse(row.data.Guids);
-      const fragmentIdMap = fragments.guidToFragmentIdMap(guids);
-      const highlighter = components.get(OBCF.Highlighter);
-      highlighter.highlightByID("select", fragmentIdMap)
+      todoCreator.highlightTodo({
+        name: row.data.Name,
+        task: row.data.Task,
+        ifcGuids: JSON.parse(row.data.Guids),
+        camera: JSON.parse(row.data.Camera)
+      })
     })
   }
 
@@ -89,11 +90,12 @@ export function ProjectDetailsPage(props: Props) {
         Name: data.name,
         Task: data.task,
         Date: new Date().toDateString(),
-        Guids: JSON.stringify(data.ifcGuids)
+        Guids: JSON.stringify(data.ifcGuids),
+        Camera: data.camera ? JSON.stringify(data.camera) : ""
       }
     }
     todoTable.data = [...todoTable.data, newData];
-    todoTable.hiddenColumns = ["Guids"];
+    todoTable.hiddenColumns = ["Guids", "Camera"];
   }
 
   const todoCreator = components.get(TodoCreator)
