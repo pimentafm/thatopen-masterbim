@@ -136,6 +136,14 @@ export function IFCViewer(props: Props) {
     input.click();
   }
 
+  const onFragmentDispose = () => {
+    const fragmentsManager = components.get(OBC.FragmentsManager)
+    for (const [, group] of fragmentsManager.groups) {
+      fragmentsManager.disposeGroup(group);
+    }
+    fragmentModel = undefined
+  }
+
   const onPropertiesImport = () => {
     alert("Todo: Import properties")
   }
@@ -330,6 +338,11 @@ export function IFCViewer(props: Props) {
             tooltip-title="Export"
             icon="tabler:package-export"
             @click=${onFragmentExport}
+          ></bim-button>
+          <bim-button
+            tooltip-title="Dispose"
+            icon="tabler:trash"
+            @click=${onFragmentDispose}
           ></bim-button>
         </bim-toolbar-section>
         <bim-toolbar-section label="Selection">
