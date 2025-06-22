@@ -20,8 +20,8 @@ export class Project implements IProject {
   role: Role
   finishDate: Date
 
-  cost: number = 0
-  progress: number = 0
+  cost: number = 500000
+  progress: number = 0.8
   id: string
   avatarColor: '#ffffff'
 
