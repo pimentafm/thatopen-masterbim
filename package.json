@@ -22,6 +22,7 @@
   "dependencies": {
     "@thatopen/components": "~2.2.0",
     "@thatopen/components-front": "~2.2.0",
+    "@thatopen/fragments": "~2.2.0",
     "@thatopen/ui": "~2.2.0",
     "@thatopen/ui-obc": "~2.2.0",
     "firebase": "10.5.2",
