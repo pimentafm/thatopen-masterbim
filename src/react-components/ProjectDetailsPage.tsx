@@ -99,7 +99,11 @@ export function ProjectDetailsPage(props: Props) {
       Actions: () => {
         return BUI.html`
           <div>
-            <bim-button icon="material-symbols:delete" style="background-color: red"></bim-button>
+            <bim-button 
+              @click=${() => todoCreator.deleteToDo(data)} 
+              icon="material-symbols:delete"
+              style="background-color: red";
+            ></bim-button>
           </div>
           <div>
             <bim-button

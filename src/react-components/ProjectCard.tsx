@@ -52,7 +52,7 @@ export function ProjectCard(props: Props) {
         <div className="card-property">
           <bim-label style={{ color: '#969696' }}>Estimated progress</bim-label>
           <bim-label style={{ color: '#fff' }}>
-            {props.project.progress}%
+            {props.project.progress * 100}%
           </bim-label>
         </div>
       </div>
