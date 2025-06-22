@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 :root {
   --primary: #029ae0;
@@ -19,7 +19,7 @@
 }
 
 * {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -27,7 +27,7 @@
 #app {
   display: grid;
   grid-template-columns: 300px 1fr;
-  grid-template-areas: "sidebar content";
+  grid-template-areas: 'sidebar content';
   height: 100vh;
   background-color: var(--bim-ui_bg-base);
   color: #fff;
@@ -352,4 +352,8 @@ select:focus {
 
 bim-option {
   padding: 4px;
+}
+
+canvas {
+  border-radius: 8px;
 }

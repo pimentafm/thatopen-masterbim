@@ -5,7 +5,7 @@ import * as BUI from '@thatopen/ui'
 import * as CUI from '@thatopen/ui-obc'
 import { FragmentsGroup } from '@thatopen/fragments'
 import { TodoCreator } from '../bim-components/TodoCreator'
-import { SimpleQTO } from '../bim-components/SimpleQTO'
+import { SimpleQTO, qtoTool } from '../bim-components/SimpleQTO'
 
 interface Props {
   components: OBC.Components
@@ -33,6 +33,7 @@ export function IFCViewer(props: Props) {
     const sceneComponent = new OBC.SimpleScene(components)
     world.scene = sceneComponent
     world.scene.setup()
+    world.scene.three.background = null
 
     const viewerContainer = document.getElementById(
       'viewer-container'
@@ -276,6 +277,9 @@ export function IFCViewer(props: Props) {
     ) as HTMLElement
     if (!viewerContainer) return
 
+    viewerContainer.style.backgroundColor = '#26282B'
+    viewerContainer.style.borderRadius = '8px'
+
     const floatingGrid = BUI.Component.create<BUI.Grid>(() => {
       return BUI.html`
         <bim-grid
@@ -354,6 +358,38 @@ export function IFCViewer(props: Props) {
             ${classificationsTree}
           </bim-panel-section>
         </bim-panel>`
+    })
+
+    const onShowQuantity = async () => {
+      if (!components || !fragmentModel) return
+
+      const highlighter = components.get(OBCF.Highlighter)
+      const selection = highlighter.selection.select
+      const simpleQto = components.get(SimpleQTO)
+      await simpleQto.sumQuantities(selection)
+
+      if (!floatingGrid) return
+      if (floatingGrid.layout !== 'qtos') {
+        floatingGrid.layout = 'qtos'
+      } else {
+        floatingGrid.layout = 'main'
+      }
+    }
+
+    const qtoTable = qtoTool({ components })
+    const qtoPanel = BUI.Component.create<BUI.Panel>(() => {
+      return BUI.html`
+        <bim-panel>
+            <bim-panel-section
+             name="qto"
+             label="Quantities"
+             icon="solar:document-bold"
+             fixed
+            >
+                ${qtoTable}
+            </bim-panel-section>
+        </bim-panel>
+      `
     })
 
     const onWorldsUpdate = () => {
@@ -509,6 +545,17 @@ export function IFCViewer(props: Props) {
         elements: {
           toolbar,
           classifierPanel,
+        },
+      },
+      qtos: {
+        template: `
+        "empty qtoPanel" 1fr
+        "toolbar toolbar" auto
+        /1fr 20rem
+        `,
+        elements: {
+          toolbar,
+          qtoPanel,
         },
       },
     }
