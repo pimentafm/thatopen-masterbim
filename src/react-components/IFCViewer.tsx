@@ -360,7 +360,7 @@ export function IFCViewer(props: Props) {
         </bim-panel>`
     })
 
-    const onShowQuantity = async () => {
+    const onShowQuantities = async () => {
       if (!components || !fragmentModel) return
 
       const highlighter = components.get(OBCF.Highlighter)
@@ -490,6 +490,13 @@ export function IFCViewer(props: Props) {
             tooltip-title="Export"
             icon="tabler:package-export"
             @click="${onPropertiesExport}"
+          ></bim-button>
+        </bim-toolbar-section>
+        <bim-toolbar-section label="Quantities">
+          <bim-button
+            tooltip-title="Quantities"
+            icon="mdi:summation"
+            @click="${onShowQuantities}"
           ></bim-button>
         </bim-toolbar-section>
         <bim-toolbar-section label="Groups">

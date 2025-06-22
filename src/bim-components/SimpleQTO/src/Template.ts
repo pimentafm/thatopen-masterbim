@@ -25,5 +25,7 @@ export const qtoTool = (state: QTOUIState) => {
     },
   }
 
+  simpleQto.table = qtoTable
+
   return qtoTable
 }

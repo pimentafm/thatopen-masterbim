@@ -1,16 +1,22 @@
-import * as WEBIFC from 'web-ifc'
 import * as OBC from '@thatopen/components'
+import * as BUI from '@thatopen/ui'
 import * as FRAGS from '@thatopen/fragments'
+import * as WEBIFC from 'web-ifc'
+import { qtoTool } from './Template'
 
-type QtoResult = {
-  [setName: string]: { [qtoName: string]: number }
+type QtoResult = { [setName: string]: { [qtoName: string]: number } }
+
+type TableGroupData = {
+  data: { Set?: string; QTO?: string; Value?: number }
+  children?: TableGroupData[]
 }
 
 export class SimpleQTO extends OBC.Component implements OBC.Disposable {
-  static uuid = 'b06de2ff-fbd0-4111-b58e-089c66667dd7'
-  enabled: boolean = true
-  onDisposed: OBC.Event<any>
+  static uuid = '7ec21568-e809-4392-a810-50b16b3777c4'
+  enabled = true
+  onDisposed: OBC.Event<any> = new OBC.Event()
   private _qtoResult: QtoResult = {}
+  table: BUI.Table
 
   constructor(components: OBC.Components) {
     super(components)
@@ -27,9 +33,8 @@ export class SimpleQTO extends OBC.Component implements OBC.Disposable {
     for (const modelId in modelIdMap) {
       const model = fragmentManager.groups.get(modelId)
       if (!model) continue
-      if (!model.hasProperties) {
-        return
-      }
+      if (!model.hasProperties) return
+
       for (const fragmentID in fragmentIdMap) {
         const expressIDs = fragmentIdMap[fragmentID]
         const indexer = this.components.get(OBC.IfcRelationsIndexer)
@@ -54,9 +59,7 @@ export class SimpleQTO extends OBC.Component implements OBC.Disposable {
                   model,
                   qtoID
                 )
-                if (!qtoName || !value) {
-                  return
-                }
+                if (!qtoName || !value) return
                 if (!(qtoName in this._qtoResult[setName])) {
                   this._qtoResult[setName][qtoName] = 0
                 }
@@ -67,7 +70,23 @@ export class SimpleQTO extends OBC.Component implements OBC.Disposable {
         }
       }
     }
-    console.log('QTO2 Result:', this._qtoResult)
+    this.updateTable()
+  }
+
+  private updateTable() {
+    if (!this.table) return
+
+    const tableData: TableGroupData[] = []
+    for (const set of Object.keys(this._qtoResult)) {
+      tableData.push({
+        data: { Set: set },
+        children: Object.keys(this._qtoResult[set]).map((qto) => ({
+          data: { QTO: qto, Value: this._qtoResult[set][qto] },
+        })),
+      })
+    }
+
+    this.table.data = tableData
   }
 
   async dispose() {
