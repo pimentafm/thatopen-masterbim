@@ -98,6 +98,15 @@ export class TodoCreator extends OBC.Component implements OBC.Disposable {
     this.onTodoCreated.trigger(todoData)
   }
 
+  deleteTodo(todo: TodoData) {
+    if (!this.enabled) return
+    const updateToDoList = this._list.filter((item) => {
+      return item.name !== todo.name
+    })
+    this._list = updateToDoList
+    this.onDisposed.trigger(todo)
+  }
+
   async highlightTodo(todo: TodoData) {
     if (!this.enabled) return
 
