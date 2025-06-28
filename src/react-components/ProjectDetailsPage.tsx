@@ -66,6 +66,7 @@ export function ProjectDetailsPage(props: Props) {
     const { row } = event.detail
     row.addEventListener('click', () => {
       todoCreator.highlightTodo({
+        id: row.data.Id,
         name: row.data.Name,
         task: row.data.Task,
         priority: row.data.Priority,
