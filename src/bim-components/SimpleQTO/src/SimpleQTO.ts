@@ -2,7 +2,6 @@ import * as OBC from '@thatopen/components'
 import * as BUI from '@thatopen/ui'
 import * as FRAGS from '@thatopen/fragments'
 import * as WEBIFC from 'web-ifc'
-import { qtoTool } from './Template'
 
 type QtoResult = { [setName: string]: { [qtoName: string]: number } }
 

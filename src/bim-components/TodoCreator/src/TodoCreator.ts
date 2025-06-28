@@ -8,6 +8,7 @@ export class TodoCreator extends OBC.Component implements OBC.Disposable {
   static uuid = '43eda07b-486c-44a3-b10d-80d144de4155'
   enabled = true
   onTodoCreated = new OBC.Event<TodoData>()
+  onTodoDeleted = new OBC.Event<TodoData>()
   onDisposed: OBC.Event<any> = new OBC.Event()
 
   private _world: OBC.World
@@ -65,6 +66,10 @@ export class TodoCreator extends OBC.Component implements OBC.Disposable {
     }
   }
 
+  get list(): TodoData[] {
+    return [...this._list]
+  }
+
   addTodo(data: TodoInput) {
     if (!this.enabled) return
 
@@ -102,16 +107,16 @@ export class TodoCreator extends OBC.Component implements OBC.Disposable {
     this.onTodoCreated.trigger(todoData)
   }
 
-  get list(): TodoData[] {
-    return [...this._list]
-  }
-
   deleteTodo(todo: TodoData) {
     if (!this.enabled) return
 
     const todos = this.list
 
-    console.log(todos)
+    const updatedTodoList = todos.filter((t) => t.id !== todo.id)
+
+    this._list = updatedTodoList
+
+    this.onTodoDeleted.trigger(todos.find((t) => t.id === todo.id) || todo)
   }
 
   async highlightTodo(todo: TodoData) {

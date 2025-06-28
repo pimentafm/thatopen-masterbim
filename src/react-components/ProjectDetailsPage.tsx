@@ -85,6 +85,7 @@ export function ProjectDetailsPage(props: Props) {
     if (!todoTable) return
     const newData = {
       data: {
+        Id: data.id,
         Name: data.name,
         Task: data.task,
         Priority: data.priority,
@@ -95,12 +96,35 @@ export function ProjectDetailsPage(props: Props) {
       },
     }
     todoTable.data = [...todoTable.data, newData]
+    todoTable.hiddenColumns = ['Id', 'Guids', 'Camera']
+  }
+
+  const removeTodo = (deletedTodo: TodoData) => {
+    if (!todoTable) return
+    // Filter out the deleted todo from the table data
+    todoTable.data = todoTable.data.filter(
+      (row: any) => row.data.Id !== deletedTodo.id
+    )
+  }
+
+  const todoCreator = components.get(TodoCreator)
+  todoCreator.onTodoCreated.add((data) => addTodo(data))
+  todoCreator.onTodoDeleted.add((data) => removeTodo(data))
+
+  React.useEffect(() => {
+    dashboard.current?.appendChild(todoTable)
+
+    // Set the dataTransform once for all rows
     todoTable.dataTransform = {
-      Actions: () => {
+      Actions: (value, rowData) => {
+        const todoId = rowData.Id
+        const todo = todoCreator.list.find((t) => t.id === todoId)
+        if (!todo) return BUI.html``
+
         return BUI.html`
           <div>
-            <bim-button 
-              @click=${() => todoCreator.deleteTodo(data)} 
+            <bim-button
+              @click=${() => todoCreator.deleteTodo(todo)}
               icon="material-symbols:delete"
               style="background-color: red";
             ></bim-button>
@@ -108,20 +132,13 @@ export function ProjectDetailsPage(props: Props) {
           <div>
             <bim-button
               icon="ion:navigate"
-              @click=${() => todoCreator.addTodoMarker(data)}
+              @click=${() => todoCreator.addTodoMarker(todo)}
             ></bim-button>
           </div>
         `
       },
     }
-    todoTable.hiddenColumns = ['Guids', 'Camera']
-  }
 
-  const todoCreator = components.get(TodoCreator)
-  todoCreator.onTodoCreated.add((data) => addTodo(data))
-
-  React.useEffect(() => {
-    dashboard.current?.appendChild(todoTable)
     const [todoButton, todoPriorityButton] = todoTool({ components })
     todoContainer.current?.appendChild(todoButton)
     todoContainer.current?.appendChild(todoPriorityButton)
