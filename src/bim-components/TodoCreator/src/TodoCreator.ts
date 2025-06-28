@@ -84,7 +84,10 @@ export class TodoCreator extends OBC.Component implements OBC.Disposable {
     const target = new THREE.Vector3()
     camera.controls.getTarget(target)
 
+    const id = OBC.UUID.create()
+
     const todoData: TodoData = {
+      id: id,
       name: data.name,
       task: data.task,
       priority: data.priority,
@@ -94,17 +97,14 @@ export class TodoCreator extends OBC.Component implements OBC.Disposable {
         target,
       },
     }
+
     this._list.push(todoData)
     this.onTodoCreated.trigger(todoData)
   }
 
   deleteTodo(todo: TodoData) {
     if (!this.enabled) return
-    const updateToDoList = this._list.filter((item) => {
-      return item.name !== todo.name
-    })
-    this._list = updateToDoList
-    this.onDisposed.trigger(todo)
+    console.log(todo)
   }
 
   async highlightTodo(todo: TodoData) {

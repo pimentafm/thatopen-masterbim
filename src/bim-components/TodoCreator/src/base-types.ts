@@ -7,6 +7,7 @@ export interface TodoInput {
 }
 
 export interface TodoData {
+  id: string
   name: string
   task: string
   priority: Priority
