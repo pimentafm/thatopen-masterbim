@@ -101,7 +101,6 @@ export function ProjectDetailsPage(props: Props) {
 
   const removeTodo = (deletedTodo: TodoData) => {
     if (!todoTable) return
-    // Filter out the deleted todo from the table data
     todoTable.data = todoTable.data.filter(
       (row: any) => row.data.Id !== deletedTodo.id
     )
@@ -114,7 +113,6 @@ export function ProjectDetailsPage(props: Props) {
   React.useEffect(() => {
     dashboard.current?.appendChild(todoTable)
 
-    // Set the dataTransform once for all rows
     todoTable.dataTransform = {
       Actions: (value, rowData) => {
         const todoId = rowData.Id
