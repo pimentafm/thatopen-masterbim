@@ -67,11 +67,11 @@ export function ProjectsForm(props: Props) {
             >
               Name
             </bim-label>
-            <bim-text-input
+            <input
               name="name"
               type="text"
               placeholder="What's the name of your project?"
-            ></bim-text-input>
+            ></input>
             <bim-label
               style={{
                 color: 'gray',
@@ -106,9 +106,9 @@ export function ProjectsForm(props: Props) {
               Role
             </bim-label>
             <bim-dropdown name="role">
-              <bim-option>Architect</bim-option>
-              <bim-option>Engineer</bim-option>
-              <bim-option>Developer</bim-option>
+              <bim-option label="Architect" checked></bim-option>
+              <bim-option label="Engineer"></bim-option>
+              <bim-option label="Developer"></bim-option>
             </bim-dropdown>
           </div>
           <div className="form-field-container">
@@ -116,9 +116,9 @@ export function ProjectsForm(props: Props) {
               Status
             </bim-label>
             <bim-dropdown name="status">
-              <bim-option>Pending</bim-option>
-              <bim-option>Active</bim-option>
-              <bim-option>Finished</bim-option>
+              <bim-option label="Pending" checked></bim-option>
+              <bim-option label="Active"></bim-option>
+              <bim-option label="Finished"></bim-option>
             </bim-dropdown>
           </div>
           <div className="form-field-container">
@@ -146,12 +146,30 @@ export function ProjectsForm(props: Props) {
               type="button"
               label="Cancel"
             ></bim-button>
-            <bim-button
+            <button
+              id="submit-project-btn"
               type="submit"
               name="submit"
-              label="Accept"
-              style={{ backgroundColor: 'rgb(18, 145, 18)' }}
-            ></bim-button>
+              style={{
+                backgroundColor: 'rgb(18, 145, 18)',
+                width: '50%',
+                borderRadius: '5px',
+                justifyContent: 'center',
+                border: 'none',
+                color: 'white',
+                padding: '10px',
+                cursor: 'pointer',
+                transition: 'background-color 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgb(16, 120, 16)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgb(18, 145, 18)'
+              }}
+            >
+              Submit
+            </button>
           </div>
         </div>
       </form>

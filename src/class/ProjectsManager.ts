@@ -52,7 +52,7 @@ export class ProjectsManager {
   }
 
   exportToJSON(fileName: string = 'projects') {
-    function replacer(key, value) {
+    function replacer(key: string, value: any) {
       if (key !== 'ui') {
         return value
       }

@@ -107,7 +107,6 @@ export function ProjectsPage(props: Props) {
     return BUI.html`
           <bim-button
             id="new-project-btn"
-            onClick={onNewProjectClick}
             label="New project"
             icon="fluent:add-20-regular"
             @click=${onNewProjectClick}

@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Utils } from './Utils'
 
-export class ProjectsManager {}
 export type ProjectStatus = 'pending' | 'active' | 'finished'
 export type Role = 'architect' | 'engineer' | 'developer'
 
@@ -23,13 +22,11 @@ export class Project implements IProject {
   cost: number = 500000
   progress: number = 0.8
   id: string
-  avatarColor: '#ffffff'
+  avatarColor: string = '#ffffff'
 
   constructor(data: IProject, id = uuidv4()) {
-    for (const key in data) {
-      this[key] = data[key]
-    }
-
+    // Assign each property from data to this instance
+    Object.assign(this, data)
     this.id = id
   }
 }
